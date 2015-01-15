@@ -278,19 +278,28 @@ public func reducer
 }
 
 
+//public func splitr
+//    <S: Sliceable, R: BooleanType>
+//    (isSeparator: (S.Generator.Element) -> R)
+//    (elements: S)
+//        -> [S.SubSlice]
+//{
+//    return split(elements, isSeparator)
+//}
+
+
 /** Argument-reversed, curried version of `split()`. */
-public func splitr
-    <S: Sliceable, R: BooleanType>
-    (isSeparator: (S.Generator.Element) -> R)
-    (elements: S)
+public func splitOn
+    <S: Sliceable where S.Generator.Element: Equatable>
+    (separator: S.Generator.Element) (collection: S)
         -> [S.SubSlice]
 {
-    return split(elements, isSeparator)
+    return split(collection) { $0 == separator }
 }
 
 
 /** Curried version of `join()`. */
-public func joinc
+public func joinWith
     <C: ExtensibleCollectionType, S: SequenceType where S.Generator.Element == C>
     (separator: C) (elements: S)
         -> C

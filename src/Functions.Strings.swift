@@ -15,7 +15,7 @@ public func stringify <T> (something:T) -> String {
 
 
 public func lines (str:String) -> [String] {
-    return split(str) { $0 == "\n" }
+    return str |> splitOn("\n")
 }
 
 
@@ -26,31 +26,35 @@ public func dumpString<T>(value:T) -> String {
 }
 
 
-public func pad(string:String, length:Int, padding:String = " ") -> String {
+public func pad(string:String, length:Int, #padding:String) -> String {
     return string.stringByPaddingToLength(length, withString:padding, startingAtIndex:0)
 }
 
-
-public func padr(length:Int, padding:String = " ") (string:String) -> String {
-    return pad(string, length, padding:padding)
+public func pad(string:String, length:Int) -> String {
+    return string.stringByPaddingToLength(length, withString:" ", startingAtIndex:0)
 }
+
+
+//public func padr(length:Int, padding:String = " ") (string:String) -> String {
+//    return pad(string, length, padding:padding)
+//}
 
 
 public func padToSameLength <S: SequenceType where S.Generator.Element == String> (strings:S) -> [S.Generator.Element]
 {
-    let maxLength = strings |> mapr(countElements)
+    let maxLength = strings |> map‡ (countElements)
                             |> maxElement
 
-    return strings |> mapr(padr(maxLength))
+    return strings |> map‡ (pad‡ (maxLength))
 }
 
 
 public func padKeysToSameLength <V> (dict: [String: V]) -> [String: V]
 {
-    let maxLength = dict |> mapr(takeLeft >>> countElements)
+    let maxLength = dict |> map‡ (takeLeft >>> countElements)
                          |> maxElement
 
-    return dict |> mapKeys(padr(maxLength, padding:" "))
+    return dict |> mapKeys(pad‡ (maxLength))
 }
 
 
@@ -77,8 +81,8 @@ public func describe <T> (array:[T]) -> String
 
 public func describe <T> (array:[T], formatElement:(T) -> String) -> String
 {
-    return array |> mapr(formatElement >>> indent)
-                 |> joinc(",\n")
+    return array |> map‡ (formatElement >>> indent)
+                 |> joinWith(",\n")
                  |> { "[\n\($0)\n]" }
 }
 
@@ -89,17 +93,17 @@ public func describe <K, V> (dict:[K: V]) -> String
 
     return dict |> mapKeys { "\($0):" }
                 |> padKeysToSameLength
-                |> mapr(renderKeyValue >>> indent)
-                |> joinc("\n")
+                |> map‡ (renderKeyValue >>> indent)
+                |> joinWith("\n")
                 |> { "{\n\($0)\n}" }
 }
 
 
 public func describe <K, V> (dict:[K: V], formatClosure:(K, V) -> String) -> String
 {
-    return dict |> mapr(formatClosure)
-                |> mapr(indent)
-                |> joinc(",\n")
+    return dict |> map‡ (formatClosure)
+                |> map‡ (indent)
+                |> joinWith(",\n")
                 |> { "\n\($0)\n" }
 }
 
@@ -107,9 +111,9 @@ public func describe <K, V> (dict:[K: V], formatClosure:(K, V) -> String) -> Str
 public func indent(string:String) -> String
 {
     let spaces = "    "
-    return string |> splitr { $0 == "\n" } //{ str in split(str) { $0 == "\n" } }
-                  |> mapr { "\(spaces)\($0)" }
-                  |> joinc("\n")
+    return string |> splitOn("\n")
+                  |> map‡   { "\(spaces)\($0)" }
+                  |> joinWith("\n")
 }
 
 
@@ -179,6 +183,11 @@ public func rgbaFromHexCode(hex:String) -> (red:CGFloat, green:CGFloat, blue:CGF
 }
 
 
+public func trim(str:String) -> String {
+    return str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+}
+
+
 public func rgbaFromRGBAString(string:String) -> (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)?
 {
     var error: NSError?
@@ -197,7 +206,7 @@ public func rgbaFromRGBAString(string:String) -> (red:CGFloat, green:CGFloat, bl
     let range = NSMakeRange(0, countElements(string))
     let sanitized: String! = regex!.stringByReplacingMatchesInString(string, options:NSMatchingOptions.allZeros, range:range, withTemplate:String(""))
 
-    let parts: [String] = split(sanitized) { $0 == "," }
+    let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
     if parts.count != 4 {
         return nil
     }

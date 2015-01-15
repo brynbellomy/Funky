@@ -121,13 +121,19 @@ postfix operator ‡ {}
 
    For example: `let lowercaseStrings = someStrings |> map‡ { $0.lowercaseString }`
 */
+
+//public postfix func ‡
+//    <T, U, V, R>
+//    (f: (T, U, V) -> R) -> V -> ((T, U) -> R) {
+//        return { v in { t, u in f(t, u, v) }}
+//}
+
+
 public postfix func ‡
-    <T, U, V>
-    (f: (T, U) -> V) -> U -> T -> V {
+    <T, U, R>
+    (f: (T, U) -> R) -> U -> T -> R {
         return currySwap(f)
 }
-
-
 
 
 

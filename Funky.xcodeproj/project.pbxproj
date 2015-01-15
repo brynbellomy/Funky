@@ -167,7 +167,9 @@
 				C5E819921A675808001B0472 /* Functions.Functional.swift */,
 				C5E819931A675808001B0472 /* Functions.Math.swift */,
 				C5E819941A675808001B0472 /* Functions.Strings.swift */,
+				C5E819AC1A675882001B0472 /* Functions.ErrorIO.swift */,
 				C5E819951A675808001B0472 /* NSError+Coalescing.swift */,
+				C5E819AA1A67585D001B0472 /* Operators.ErrorIO.swift */,
 				C5E819961A675808001B0472 /* Operators.apply.swift */,
 				C5E819971A675808001B0472 /* Operators.bind.swift */,
 				C5E819981A675808001B0472 /* Operators.compose.swift */,
@@ -175,8 +177,6 @@
 				C5E8199A1A675808001B0472 /* Operators.Misc.swift */,
 				C5E8199B1A675808001B0472 /* Operators.pipe.swift */,
 				C5E8199C1A675808001B0472 /* vendor */,
-				C5E819AA1A67585D001B0472 /* Operators.ErrorIO.swift */,
-				C5E819AC1A675882001B0472 /* Functions.ErrorIO.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
