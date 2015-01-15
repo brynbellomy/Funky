@@ -1,0 +1,19 @@
+PODS:
+  - LlamaKit (0.1.0)
+
+DEPENDENCIES:
+  - LlamaKit (from `https://github.com/LlamaKit/LlamaKit`)
+
+EXTERNAL SOURCES:
+  LlamaKit:
+    :git: https://github.com/LlamaKit/LlamaKit
+
+CHECKOUT OPTIONS:
+  LlamaKit:
+    :commit: e37b966998df6ca05445c0b5d9c6c9560f1e7b61
+    :git: https://github.com/LlamaKit/LlamaKit
+
+SPEC CHECKSUMS:
+  LlamaKit: 71673af25b2c733160d643e67c1f711d3afa4af2
+
+COCOAPODS: 0.35.0
