@@ -1,5 +1,5 @@
 //
-//  Error.swift
+//  ErrorIO.swift
 //  Funky
 //
 //  Created by bryn austin bellomy on 2015 Jan 6.
@@ -10,55 +10,52 @@ import Foundation
 import LlamaKit
 
 
-public protocol IErrorType
+public class ErrorIO: NSError
 {
-    var domain: String { get }
-    var code: Int { get }
-    var localizedDescription: String { get }
+    public class var defaultDomain: String { return "com.illumntr.ErrorIO" }
+    public class var defaultCode:   Int    { return 1 }
 
-}
-
-extension NSError: IErrorType {}
-
-
-public struct ErrorIO
-{
-    public typealias Element = IErrorType
+    public typealias Element = NSError
     public typealias UnderlyingCollection = [Element]
 
     public private(set) var errors = UnderlyingCollection()
-    public var errorCount: Int { return errors.count }
 
-    public var domain: String = "com.illumntr.MultiError"
-    public var code:   Int    = 1
-
-    public var localizedDescription: String {
+    override public var localizedDescription: String {
         let localizedErrors = describe(errors) { $0.localizedDescription }
         return "<ErrorIO: errors = \(localizedErrors)>"
     }
 
-    public init() {}
+    required public init() {
+        super.init(domain: ErrorIO.defaultDomain, code:ErrorIO.defaultCode, userInfo:nil)
+    }
 
-    public init(_ others: ErrorIO...)
+    convenience public init(flatten others: ErrorIO...)
     {
+        self.init()
         for other in others {
             errors += other.errors
         }
     }
 
-    public init(_ others: IErrorType...)
+    convenience public init(with others: NSError...)
     {
+        self.init()
         for other in others {
             errors.append(other)
         }
     }
 
-
-    public static func defaultError(userInfo: [NSObject: AnyObject]) -> ErrorIO {
-        return ErrorIO() <~ NSError(domain: "", code: 0, userInfo: userInfo)
+    convenience required
+    public init(arrayLiteral errors: Element...) {
+        self.init()
+        extend(errors)
     }
 
-    public static func defaultError(message: String, file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
+    public class func defaultError(userInfo: [NSObject: AnyObject]) -> ErrorIO {
+        return ErrorIO() <~ NSError(domain: ErrorIO.defaultDomain, code: ErrorIO.defaultCode, userInfo: userInfo)
+    }
+
+    public class func defaultError(message: String, file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
         let userInfo: [NSObject: AnyObject] = [
             NSLocalizedDescriptionKey: message,
             "file": file,
@@ -67,11 +64,12 @@ public struct ErrorIO
         return defaultError(userInfo)
     }
 
-    public static func defaultError(file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
+    public class func defaultError(file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
         let userInfo: [NSObject: AnyObject] = [ "file": file, "line": line, ]
         return defaultError(userInfo)
     }
 
+    required public init(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
 
@@ -112,14 +110,14 @@ extension ErrorIO: CollectionType
 
 extension ErrorIO: ExtensibleCollectionType
 {
-    public mutating func reserveCapacity(n: Index.Distance) {
+    public func reserveCapacity(n: Index.Distance) {
         errors.reserveCapacity(n)
     }
 
     /**
         This method is simply an alias for `push()`, included for `ExtensibleCollectionType` conformance.
      */
-    public mutating func append(newElement:Element) {
+    public func append(newElement:Element) {
         errors.append(newElement)
     }
 
@@ -127,7 +125,7 @@ extension ErrorIO: ExtensibleCollectionType
     /**
         Element order is [bottom, ..., top], as if one were to iterate through the sequence in forward order, calling `stack.push(element)` on each element.
      */
-    public mutating func extend <S: SequenceType where S.Generator.Element == Element> (sequence: S) {
+    public func extend <S: SequenceType where S.Generator.Element == Element> (sequence: S) {
         errors.extend(sequence)
     }
 }
@@ -137,11 +135,7 @@ extension ErrorIO: ExtensibleCollectionType
 // MARK: - Error: ArrayLiteralConvertible
 //__
 
-extension ErrorIO: ArrayLiteralConvertible
-{
-    public init(arrayLiteral errors: Element...) {
-        extend(errors)
-    }
+extension ErrorIO: ArrayLiteralConvertible {
 }
 
 

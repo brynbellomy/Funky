@@ -132,54 +132,59 @@ public func dirname(path:String) -> String {
 }
 
 
-
-
 /**
     Generates an NS- or UIColor from a hex color string.
 
     :param: hex The hex color string from which to create the color object.  '#' sign is optional.
  */
-public func rgbaFromHexCode(hex:String) -> (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)?
+public func rgbaFromHexCode(hex:String) -> (r:UInt32, g:UInt32, b:UInt32, a:UInt32)?
 {
-    var colorString: String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
+    let trimmed = hex["[^a-fA-F0-9]"] ~= "" |> stringify
+    let strLen  = countElements(trimmed)
 
-    if colorString.hasPrefix("#") {
-        colorString = colorString |> substringFromIndex(1)
-    }
-
-    let stringLength = countElements(colorString)
-    if stringLength != 6 && stringLength != 8 {
+    if strLen != 6 && strLen != 8 {
         return nil
     }
 
-    var rString = colorString |> substringToIndex(2)
-    var gString = colorString |> substringFromIndex(2) |> substringToIndex(2)
-    var bString = colorString |> substringFromIndex(4) |> substringToIndex(2)
-    var aString: String?
-
-    // if we have a fourth hex value (alpha)
-    if stringLength == 8 {
-        aString = colorString |> substringFromIndex(6) |> substringToIndex(2)
+    let groups = String(trimmed)["([:xdigit:][:xdigit:])"].matches()
+    if groups.count < 3 {
+        return nil
     }
 
-    var r: CUnsignedInt = 0
-    var g: CUnsignedInt = 0
-    var b: CUnsignedInt = 0
-    var a: CUnsignedInt = 255
-
-    NSScanner(string:rString).scanHexInt(&r)
-    NSScanner(string:gString).scanHexInt(&g)
-    NSScanner(string:bString).scanHexInt(&b)
-    if let aString = aString? {
-        NSScanner(string:aString).scanHexInt(&a)
+    let (red, green, blue) = (readHexInt(groups[0]), readHexInt(groups[1]), readHexInt(groups[2]))
+    var alpha: UInt32?
+    if groups.count >= 4 {
+        alpha = readHexInt(groups[3])
     }
 
-    let red     = CGFloat(r) / 255.0
-    let green   = CGFloat(g) / 255.0
-    let blue    = CGFloat(b) / 255.0
-    let alpha   = CGFloat(a) / 255.0
+    if let (r, g, b) = all(red, green, blue)
+    {
+        if let a = alpha {
+            return (r:r, g:g, b:b, a:a)
+        }
+        else {
+            return (r:r, g:g, b:b, a:255)
+        }
 
-    return (red:red, green:green, blue:blue, alpha:alpha)
+    }
+    return nil
+}
+
+
+
+/**
+    Given a palette of `n` colors and a tuple `(r, g, b, a)` of `UInt32`s, this function will return a tuple (r/n, g/n, b/n, a/n)
+ */
+public func normalizeRGBA (colors c:UInt32) (r:UInt32, g:UInt32, b:UInt32, a:UInt32) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat) {
+    return (r:CGFloat(r/c), g:CGFloat(g/c), b:CGFloat(b/c), a:CGFloat(a/c))
+}
+
+
+
+public func readHexInt(str:String) -> UInt32? {
+    var i: UInt32 = 0
+    let success = NSScanner(string:str).scanHexInt(&i)
+    return success ? i : nil
 }
 
 
@@ -188,31 +193,16 @@ public func trim(str:String) -> String {
 }
 
 
-public func rgbaFromRGBAString(string:String) -> (red:CGFloat, green:CGFloat, blue:CGFloat, alpha:CGFloat)?
+public func rgbaFromRGBAString(string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
 {
-    var error: NSError?
-    let regex = NSRegularExpression(pattern: "[^0-9,\\.]", options:NSRegularExpressionOptions.allZeros, error: &error)
-
-    if let error = error {
-        NSLog("Error: \(error.localizedDescription)")
-        return nil
-    }
-
-    if regex == nil {
-        NSLog("NSRegularExpression.init returned nil but no error.")
-        return nil
-    }
-
-    let range = NSMakeRange(0, countElements(string))
-    let sanitized: String! = regex!.stringByReplacingMatchesInString(string, options:NSMatchingOptions.allZeros, range:range, withTemplate:String(""))
-
-    let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
+    let sanitized = string["[^0-9,\\.]"] ~= ""
+    let parts: [String] = String(sanitized) |> splitOn(",") |> map‡ (trim)
     if parts.count != 4 {
         return nil
     }
 
     if let (red, green, blue, alpha) = all(parts[0].toCGFloat(), parts[1].toCGFloat(), parts[2].toCGFloat(), parts[3].toCGFloat()) {
-        return (red:red, green:green, blue:blue, alpha:alpha)
+        return (r:red, g:green, b:blue, a:alpha)
     }
 
     return nil
@@ -225,3 +215,7 @@ private extension String
         return CGFloat((self as NSString).floatValue)
     }
 }
+
+
+
+

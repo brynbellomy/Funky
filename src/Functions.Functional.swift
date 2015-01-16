@@ -22,6 +22,18 @@ public func head <C: CollectionType> (collection: C) -> C.Generator.Element?
     return nil
 }
 
+
+public func tail <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
+    (collection: C, n: C.Index) -> D
+{
+    var theTail = D()
+    let end = collection.endIndex
+    for i in n ..< collection.endIndex {
+        theTail.append(collection[i])
+    }
+    return theTail
+}
+
 public func collect <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element> (seq:S) -> D
 {
     var gen = seq.generate()
@@ -34,7 +46,13 @@ public func collect <S: SequenceType, D: ExtensibleCollectionType where S.Genera
 }
 
 
-public func equal <S: SequenceType, T: SequenceType> (one:S, two:T, equality:(S.Generator.Element, T.Generator.Element) -> Bool) -> Bool
+public func equal <T: Equatable, U: Equatable> (one:(T, U), two:(T, U)) -> Bool {
+    return one.0 == two.0 && one.1 == two.1
+}
+
+
+public func equal <S: SequenceType, T: SequenceType>
+    (one:S, two:T, equality:(S.Generator.Element, T.Generator.Element) -> Bool) -> Bool
 {
     var gen1 = one.generate()
     var gen2 = two.generate()
@@ -51,12 +69,16 @@ public func equal <S: SequenceType, T: SequenceType> (one:S, two:T, equality:(S.
 }
 
 
-public func both <T, U> (one:T?, two:U?) -> (T, U)? {
+public func both <T, U>
+    (one:T?, two:U?) -> (T, U)?
+{
     return rejectEitherNil((one, two))
 }
 
 
-public func all <T, U, V> (one:T?, two:U?, three:V?) -> (T, U, V)? {
+public func all <T, U, V>
+    (one:T?, two:U?, three:V?) -> (T, U, V)?
+{
     if let (one, two) = both(one, two) {
         if let three = three {
             return (one, two, three)
@@ -66,7 +88,9 @@ public func all <T, U, V> (one:T?, two:U?, three:V?) -> (T, U, V)? {
 }
 
 
-public func all <T, U, V, W> (one:T?, two:U?, three:V?, four:W?) -> (T, U, V, W)? {
+public func all <T, U, V, W>
+    (one:T?, two:U?, three:V?, four:W?) -> (T, U, V, W)?
+{
     if let (one, two) = both(one, two)? {
         if let (three, four) = both(three, four)? {
             return (one, two, three, four)
@@ -76,36 +100,37 @@ public func all <T, U, V, W> (one:T?, two:U?, three:V?, four:W?) -> (T, U, V, W)
 }
 
 
-public func isSuccess <T, E> (result:Result<T, E>) -> Bool {
-    return result.isSuccess
+public func isSuccess <T> (result:Result<T>) -> Bool {
+    return result.isSuccess()
 }
 
 
-public func isFailure <T, E> (result:Result<T, E>) -> Bool {
+public func isFailure <T> (result:Result<T>) -> Bool {
     return !isSuccess(result)
 }
 
 
-public func unwrapValue <T, E> (result: Result<T, E>) -> T? {
-    return result.value
+public func unwrapValue <T> (result: Result<T>) -> T? {
+    return result.value()
 }
 
 
-public func unwrapError <T, E> (result: Result<T, E>) -> E? {
-    return result.error
+public func unwrapError <T> (result: Result<T>) -> NSError? {
+    return result.error()
 }
 
 
-public func zip2 <T, U> (one:T)(two:U) -> (T, U) {
+public func zip2 <T, U> (one:T) (two:U) -> (T, U) {
     return (one, two)
 }
 
 
-public func zip3 <T, U, V> (one:T)(two:U)(three:V) -> (T, U, V) {
+public func zip3 <T, U, V>  (one:T) (two:U) (three:V) -> (T, U, V) {
     return (one, two, three)
 }
 
-public func zipseq <S: SequenceType, T: SequenceType> (one:S, two:T) -> SequenceOf<(S.Generator.Element, T.Generator.Element)>
+public func zipseq <S: SequenceType, T: SequenceType>
+    (one:S, two:T) -> SequenceOf<(S.Generator.Element, T.Generator.Element)>
 {
     return ZipGenerator2(one.generate(), two.generate())
                 |> unfold {
@@ -131,8 +156,7 @@ public func unfold <T, U> (closure: T -> (U, T)?) (initial:T) -> SequenceOf<U>
     return SequenceOf(arr)
 }
 
-//
-// @@TODO: write partition() function
+
 //
 //-- | The 'partition' function takes a predicate a list and returns
 //-- the pair of lists of elements which do and do not satisfy the
@@ -144,10 +168,27 @@ public func unfold <T, U> (closure: T -> (U, T)?) (initial:T) -> SequenceOf<U>
 //{-# INLINE partition #-}
 //partition p xs = foldr (select p) ([],[]) xs
 //
-//public func partition ()
+
+public func partition <S: SequenceType, T where T == S.Generator.Element>
+    (predicate:T -> Bool) (seq:S) -> ([T], [T])
+{
+    let start = ([T](), [T]())
+
+    return seq |> reducer(start) { (var into, each) in
+                      if predicate(each) {
+                          into.0.append(each)
+                      }
+                      else {
+                          into.1.append(each)
+                      }
+                      return into
+                  }
+}
 
 
-public func contains <I: Comparable, C: CollectionType where I == C.Index> (c: C, range: Range<I>) -> Bool {
+public func contains <I: Comparable, C: CollectionType where I == C.Index>
+    (c: C, range: Range<I>) -> Bool
+{
     let interval: HalfOpenInterval = c.startIndex ..< c.endIndex
     return interval ~= range.startIndex && interval ~= range.endIndex
 }
@@ -168,7 +209,7 @@ public func mapLeft <T, U, V> (transform: T -> V) (seq:[(T, U)]) -> [(V, U)] {
 }
 
 
-public func mapRight1 <T, U, V> (transform:U -> V)(tuple:(T, U)) -> (T, V) {
+public func mapRight1 <T, U, V> (transform:U -> V) (tuple:(T, U)) -> (T, V) {
     return (tuple.0, transform(tuple.1))
 }
 
@@ -225,26 +266,29 @@ public func takeFirst <S: SequenceType> (predicate: S.Generator.Element -> Bool)
 }
 
 
-public func selectFailures <T, E> (array:[Result<T, E>]) -> [E] {
-    return array |> mapFilter { $0.error }
+public func selectFailures <T> (array:[Result<T>]) -> [NSError] {
+    return array |> mapFilter { $0.error() }
 }
 
 
-public func rejectFailures <T> (source: [Result<T, ErrorIO>]) -> [T]
+public func rejectFailures <T> (source: [Result<T>]) -> [T]
 {
-    return source |> rejectIf({ !$0.isSuccess })
+    return source |> rejectIf({ !$0.isSuccess() })
                   |> mapFilter(unwrapValue)
 }
 
 
-public func rejectFailuresAndDispose <T> (disposal:ErrorIO -> Void) (source: [Result<T, ErrorIO>]) -> [T]
+public func rejectFailuresAndDispose <T> (disposal:NSError -> Void) (source: [Result<T>]) -> [T]
 {
-    return source |> rejectIfAndDispose({ !$0.isSuccess })({ disposal($0.error!) })
+    return source |> rejectIfAndDispose({ !$0.isSuccess() })({ disposal($0.error()!) })
                   |> mapFilter(unwrapValue)
 }
 
 
-public func groupBy <K: Hashable, V, S: SequenceType where S.Generator.Element == V> (keyClosure:V -> K) (seq:S) -> [K: [V]] {
+public func groupBy
+    <K: Hashable, V, S: SequenceType where S.Generator.Element == V>
+    (keyClosure:V -> K) (seq:S) -> [K: [V]]
+{
     return reduce(seq, [K: [V]]()) { (var current, next) in
         let key: K = keyClosure(next)
         if current[key] == nil { current[key] = [V]() }
@@ -254,45 +298,19 @@ public func groupBy <K: Hashable, V, S: SequenceType where S.Generator.Element =
 }
 
 
-public func coalesce <T> (arr:[Result<T, ErrorIO>]) -> Result<[T], ErrorIO>
-{
-    let failures = selectFailures(arr)
-    if failures.count > 0 {
-        let multierror = failures.reduce(ErrorIO(), <~)
-        return failure(multierror)
-    }
-    else {
-        return success(rejectFailures(arr))
-    }
-}
-
-
 /** Argument-reversed, curried version of `reduce()`. */
 public func reducer
     <S: SequenceType, U>
-    (initial:U, combine: (U, S.Generator.Element) -> U)
-    (seq:S)
-        -> U
+    (initial:U, combine: (U, S.Generator.Element) -> U) (seq:S) -> U
 {
     return reduce(seq, initial, combine)
 }
 
 
-//public func splitr
-//    <S: Sliceable, R: BooleanType>
-//    (isSeparator: (S.Generator.Element) -> R)
-//    (elements: S)
-//        -> [S.SubSlice]
-//{
-//    return split(elements, isSeparator)
-//}
-
-
 /** Argument-reversed, curried version of `split()`. */
 public func splitOn
     <S: Sliceable where S.Generator.Element: Equatable>
-    (separator: S.Generator.Element) (collection: S)
-        -> [S.SubSlice]
+    (separator: S.Generator.Element) (collection: S) -> [S.SubSlice]
 {
     return split(collection) { $0 == separator }
 }
@@ -309,7 +327,7 @@ public func joinWith
 
 
 /** Returns an array containing only the unique elements of `seq`. */
-public func unique <S : SequenceType where S.Generator.Element : Hashable> (seq:S) -> [S.Generator.Element]
+public func unique <S: SequenceType where S.Generator.Element : Hashable> (seq:S) -> [S.Generator.Element]
 {
     var dict = Dictionary<S.Generator.Element, Bool>()
     for item in seq {
@@ -324,25 +342,19 @@ public func pairs <K: Hashable, V> (dict:[K: V]) -> [(K, V)] {
 }
 
 
-/**
-    Curries a binary function.
- */
+/** Curries a binary function. */
 public func curry
     <A, B, R>
-    (f: (A, B) -> R)
-    -> A -> B -> R
+    (f: (A, B) -> R) -> A -> B -> R
 {
     return { x in { y in f(x, y) }}
 }
 
 
-/**
-    Curries a ternary function.
- */
+/** Curries a ternary function. */
 public func curry
     <A, B, C, R>
-    (f: (A, B, C) -> R)
-    -> A -> B -> C -> R
+    (f: (A, B, C) -> R) -> A -> B -> C -> R
 {
     return { a in { b in { c in f(a, b, c) } } }
 }
@@ -355,17 +367,17 @@ public func curry
 
     (...or whatever).
  */
-public func currySwap<T, U, V>(f: (T, U) -> V) -> U -> T -> V {
+public func currySwap <T, U, V> (f: (T, U) -> V) -> U -> T -> V {
     return { x in { y in f(y, x) }}
 }
 
 
-public func isNil<T : AnyObject>(val:T?) -> Bool {
+public func isNil <T: AnyObject> (val:T?) -> Bool {
     return val === nil
 }
 
 
-public func isNil<T : NilLiteralConvertible>(val:T?) -> Bool {
+public func isNil <T: NilLiteralConvertible> (val:T?) -> Bool {
     return val == nil
 }
 
@@ -386,9 +398,7 @@ public func nonNil <T> (value:T?) -> Bool {
 }
 
 
-/**
-    Curried function that maps a transform function over a given object and returns a 2-tuple of the form `(object, transformedObject)`.
- */
+/** Curried function that maps a transform function over a given object and returns a 2-tuple of the form `(object, transformedObject)`. */
 public func zipMap <T, U> (transform: T -> U) (object: T) -> (T, U)
 {
     let transformed = transform(object)
@@ -396,6 +406,7 @@ public func zipMap <T, U> (transform: T -> U) (object: T) -> (T, U)
 }
 
 
+/** Curried function that maps a transform function over the first (or left) element of a tuple. */
 public func zipMapLeft <T, U> (transform: T -> U) (object: T) -> (U, T)
 {
     let transformed = transform(object)
@@ -406,7 +417,9 @@ public func zipMapLeft <T, U> (transform: T -> U) (object: T) -> (U, T)
 /**
     Curried function that maps a transform function over a `CollectionType` and returns an array of 2-tuples of the form `(object, transformedObject)`.  If the transform function returns nil for a given element in the collection, the tuple for that element will not be included in the returned `Array`.
  */
-public func zipFilter<C : CollectionType, T>(transform: C.Generator.Element -> T?)(source: C) -> [(C.Generator.Element, T)]
+public func zipFilter
+    <C: CollectionType, T>
+    (transform: C.Generator.Element -> T?) (source: C) -> [(C.Generator.Element, T)]
 {
     let zipped_or_nil : (C.Generator.Element) -> (C.Generator.Element, T)? = zipFilter(transform)
     return source |> mapFilter(zipped_or_nil)
@@ -428,7 +441,7 @@ public func zipFilter <T, U> (transform: T -> U?) (object: T) -> (T, U)?
 /**
     Curried function that maps a transform function over a `CollectionType` and returns an `Array` of 2-tuples of the form `(object, transformedObject)`.
  */
-public func zipMap <C : CollectionType, T> (transform: C.Generator.Element -> T) (source: C) -> [(C.Generator.Element, T)] {
+public func zipMap <C: CollectionType, T> (transform: C.Generator.Element -> T) (source: C) -> [(C.Generator.Element, T)] {
     let theZip = zipMap(transform)
     return map(source, theZip)
 }
@@ -436,7 +449,7 @@ public func zipMap <C : CollectionType, T> (transform: C.Generator.Element -> T)
 /**
     Curried function that maps a transform function over a `CollectionType` and returns an `Array` of 2-tuples of the form `(object, transformedObject)`.
  */
-public func zipMapLeft <C : CollectionType, T> (transform: C.Generator.Element -> T) (source: C) -> [(T, C.Generator.Element)] {
+public func zipMapLeft <C: CollectionType, T> (transform: C.Generator.Element -> T) (source: C) -> [(T, C.Generator.Element)] {
     let theZip = zipMapLeft(transform)
     return map(source, theZip)
 }
@@ -445,15 +458,15 @@ public func zipMapLeft <C : CollectionType, T> (transform: C.Generator.Element -
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.
  */
-public func selectr <S : SequenceType> (predicate: S.Generator.Element -> Bool) (seq: S) -> [S.Generator.Element] {
+public func select <S: SequenceType> (predicate: S.Generator.Element -> Bool) (seq: S) -> [S.Generator.Element] {
     return filter(seq, predicate)
 }
 
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.
  */
-public func selectr <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
-    return dict |> pairs |> selectr(predicate) |> mapToDictionary(id)
+public func select <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
+    return dict |> pairs |> select(predicate) |> mapToDictionary(id)
 }
 
 
@@ -466,7 +479,7 @@ public func selectr <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] 
     :param: source The collection to transform.
     :returns: The transformed collection.
 */
-public func mapr<S : SequenceType, T>(transform: S.Generator.Element -> T)(source: S) -> [T] {
+public func mapr <S: SequenceType, T> (transform: S.Generator.Element -> T) (source: S) -> [T] {
     return map(source, transform)
 }
 
@@ -477,7 +490,7 @@ public func mapr<S : SequenceType, T>(transform: S.Generator.Element -> T)(sourc
     :param: source The sequence to map.
     :returns: An `ExtensibleCollectionType` of your choosing.
  */
-public func mapFilter <S: SequenceType, D: ExtensibleCollectionType> (transform: (S.Generator.Element) -> D.Generator.Element?)(source: S) -> D
+public func mapFilter <S: SequenceType, D: ExtensibleCollectionType> (transform: (S.Generator.Element) -> D.Generator.Element?) (source: S) -> D
 {
     var result = D()
     for x in source {
@@ -496,7 +509,7 @@ public func mapFilter <S: SequenceType, D: ExtensibleCollectionType> (transform:
     :param: source The sequence to map.
     :returns: An `Array` with the mapped, non-nil values from the input sequence.
  */
-public func mapFilter <S: SequenceType, T> (transform: S.Generator.Element -> T?)(source: S) -> [T]
+public func mapFilter <S: SequenceType, T> (transform: S.Generator.Element -> T?) (source: S) -> [T]
 {
     var result = [T]()
     for x in source {
@@ -521,7 +534,9 @@ public func rejectIf <S: SequenceType, T where S.Generator.Element == T> (predic
 }
 
 
-public func rejectIfAndDispose <S: SequenceType, T where S.Generator.Element == T> (predicate:T -> Bool) (disposal:T -> Void) (source: S) -> [T]
+public func rejectIfAndDispose
+    <S: SequenceType, T where S.Generator.Element == T>
+    (predicate:T -> Bool) (disposal:T -> Void) (source: S) -> [T]
 {
     var results = [T]()
     for x in source
@@ -535,7 +550,6 @@ public func rejectIfAndDispose <S: SequenceType, T where S.Generator.Element == 
     }
     return results
 }
-
 
 
 /**
@@ -603,7 +617,8 @@ public func rejectNil<T>(collection: [T?]) -> [T]
     :param: tuple The tuple to examine.
     :returns: The tuple or nil.
 */
-public func rejectEitherNil<T, U>(tuple: (T?, U?)) -> (T, U)?
+public func rejectEitherNil <T, U>
+    (tuple: (T?, U?)) -> (T, U)?
 {
     // have to use if-let clauses to recursively flatten Optional types in a single statement
     if let zero = tuple.0? {
@@ -621,7 +636,8 @@ public func rejectEitherNil<T, U>(tuple: (T?, U?)) -> (T, U)?
     :param: collection The collection to filter.
     :returns: The provided collection with all tuples containing a `nil` element removed.
 */
-public func rejectEitherNil<T, U>(collection: [(T?, U?)]) -> [(T, U)]
+public func rejectEitherNil <T, U>
+    (collection: [(T?, U?)]) -> [(T, U)]
 {
     return reduce(collection, Array<(T, U)>()) { (var nonNilValues, item) in
         if nonNil(item.0) && nonNil(item.1) {
@@ -638,7 +654,9 @@ public func rejectEitherNil<T, U>(collection: [(T?, U?)]) -> [(T, U)]
     :param: keySelector A function taking an element of `array` and returning the key for that element in the returned dictionary.
     :returns: A dictionary comprising the key-value pairs constructed by applying `keySelector` to the values in `array`.
 */
-public func mapToDictionaryKeys <K: Hashable, S: SequenceType> (keySelector:S.Generator.Element -> K)(seq:S) -> [K: S.Generator.Element]
+public func mapToDictionaryKeys <K: Hashable, S: SequenceType>
+    (keySelector:S.Generator.Element -> K)
+    (seq:S) -> [K: S.Generator.Element]
 {
     var result: [K: S.Generator.Element] = [:]
     for item in seq {
@@ -654,7 +672,9 @@ public func mapToDictionaryKeys <K: Hashable, S: SequenceType> (keySelector:S.Ge
     :param: keySelector A function taking an element of `array` and returning the key for that element in the returned dictionary.
     :returns: A dictionary comprising the key-value pairs constructed by applying `keySelector` to the values in `array`.
 */
-public func mapToDictionary <K: Hashable, V, S: SequenceType> (transform:S.Generator.Element -> (K, V)) (seq:S) -> [K: V]
+public func mapToDictionary <K: Hashable, V, S: SequenceType>
+    (transform: S.Generator.Element -> (K, V))
+    (seq: S) -> [K: V]
 {
     var result: [K: V] = [:]
     for item in seq {
@@ -671,9 +691,10 @@ public func mapToDictionary <K: Hashable, V, S: SequenceType> (transform:S.Gener
     :param: domain The collection to search.
     :returns: The index of the first matching item,  or `nil` if none was found.
  */
-public func find<C : CollectionType where C.Generator.Element : Equatable>(domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
+public func find <C: CollectionType where C.Generator.Element: Equatable>
+    (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
 {
-    var maybeIndex : C.Index? = domain.startIndex
+    var maybeIndex: C.Index? = domain.startIndex
     do
     {
         if let index = maybeIndex?
@@ -693,7 +714,8 @@ public func find<C : CollectionType where C.Generator.Element : Equatable>(domai
 
 
 
-public func findWhere <C: CollectionType where C.Generator.Element: Equatable> (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
+public func findWhere <C: CollectionType where C.Generator.Element: Equatable>
+    (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
 {
     var maybeIndex : C.Index? = domain.startIndex
     do
@@ -728,15 +750,6 @@ public func mapTupleArrayToDictionary <E: Hashable, F> (array:[(E, F)]) -> [E : 
         result[item.0] = item.1
     }
     return result
-}
-
-
-
-// got this from ExSwift
-
-public func tail <T> (array:[T], n: Int) -> [T] {
-    let x = (array.count - n) ..< array.count
-    return Array(array[x])
 }
 
 

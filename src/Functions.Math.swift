@@ -16,7 +16,7 @@ import Foundation
     :param: max
     :returns: Random number
 */
-public func random(min: Float = 0, max: Float) -> Float
+public func random(min: Float = 0, #max: Float) -> Float
 {
     let diff = max - min
     let rand = Float(arc4random() % (UInt32(RAND_MAX) + 1))

@@ -39,46 +39,46 @@ public func >>-
 
 
 public func >>-
-    <A, B, E>
-    (maybeValue: Result<A, E>, f: A -> Result<B, E>)
-    -> Result<B, E>
+    <A, B>
+    (maybeValue: Result<A>, f: A -> Result<B>)
+    -> Result<B>
 {
     switch maybeValue {
         case .Success(let box): return f(box.unbox)
-        case .Failure(let box): return failure(box.unbox)
+        case .Failure(let err): return failure(err)
     }
 }
 
 public func >>-
     <E>
-    (maybeValue: Result<(), E>, f: () -> Result<(), E>)
-    -> Result<(), E>
+    (maybeValue: Result<()>, f: () -> Result<()>)
+    -> Result<()>
 {
     switch maybeValue {
         case .Success:          return f()
-        case .Failure(let box): return failure(box.unbox)
+        case .Failure(let box): return failure(box)
     }
 }
 
 
 public func >>-
     <E>
-    (maybeValue: Result<Bool, E>, f: () -> Result<Bool, E>)
-    -> Result<Bool, E>
+    (maybeValue: Result<Bool>, f: () -> Result<Bool>)
+    -> Result<Bool>
 {
     switch maybeValue {
         case .Success:          return f()
-        case .Failure(let box): return failure(box.unbox)
+        case .Failure(let err): return failure(err)
     }
 }
 
 
-public func -<< <A, B, E> (f:A -> Result<B, E>, maybeValue:Result<A, E>) -> Result<B, E>
+public func -<< <A, B> (f:A -> Result<B>, maybeValue:Result<A>) -> Result<B>
 {
 
     switch maybeValue {
         case .Success(let box): return f(box.unbox)
-        case .Failure(let box): return failure(box.unbox)
+        case .Failure(let err): return failure(err)
     }
 }
 

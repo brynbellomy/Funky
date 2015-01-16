@@ -29,9 +29,9 @@ public func <*>
 
 
 public func <*>
-    <A, B, E>
-    (f: Result<A -> B, E>, values: Result<A, E>)
-    -> Result<B, E>
+    <A, B>
+    (f: Result<A -> B>, values: Result<A>)
+    -> Result<B>
 {
     return f.flatMap { fn in values.flatMap(fn >>> success) }
 }

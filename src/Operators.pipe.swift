@@ -49,9 +49,9 @@ public func <|
 
 // @@TODO: figure out a different operator for this
 public func <|
-    <T, U, E>
-    (f: Result<T -> U, E>, t: T)
-    -> Result<U, E>
+    <T, U>
+    (f: Result<T -> U>, t: T)
+    -> Result<U>
 {
     return f.map { fn in fn(t) }
 }

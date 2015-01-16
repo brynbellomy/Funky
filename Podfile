@@ -1,7 +1,10 @@
 platform :osx, '10.10'
 
-pod 'LlamaKit', :git => "https://github.com/LlamaKit/LlamaKit"
+pod 'LlamaKit', '~> 0.1.x'
 
-link_with 'Funky', 'FunkyTests'
+target :FunkyTests do
+    pod 'Quick', :git => 'https://github.com/Quick/Quick.git'
+    pod 'Nimble', :git => 'https://github.com/Quick/Nimble.git'
+end
 
 

@@ -35,9 +35,9 @@ public func <^>
 
 
 public func <^>
-    <A, B, E>
-    (f: A -> B, values: Result<A, E>)
-    -> Result<B, E>
+    <A, B>
+    (f: A -> B, values: Result<A>)
+    -> Result<B>
 {
     return values.map(f)
 }
