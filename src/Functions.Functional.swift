@@ -76,6 +76,32 @@ public func both <T, U>
 }
 
 
+public func any <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> Bool
+{
+    var gen = seq.generate()
+    while let next = gen.next() {
+        if predicate(next) == true {
+            return true
+        }
+    }
+    return false
+}
+
+
+public func all <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> Bool
+{
+    var gen = seq.generate()
+    while let next = gen.next() {
+        if predicate(next) == false {
+            return false
+        }
+    }
+    return true
+}
+
+
 public func all <T, U, V>
     (one:T?, two:U?, three:V?) -> (T, U, V)?
 {
