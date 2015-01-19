@@ -1,6 +1,6 @@
 {   "folders": [
-     {   "path": "./Source",
-         "name": "Source" },
+     {   "path": "./src",
+         "name": "src" },
      {   "path": ".",
          "name": "Funky" }
      ]
