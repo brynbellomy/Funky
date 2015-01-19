@@ -139,14 +139,16 @@ public func dirname(path:String) -> String {
  */
 public func rgbaFromHexCode(hex:String) -> (r:UInt32, g:UInt32, b:UInt32, a:UInt32)?
 {
-    let trimmed = hex["[^a-fA-F0-9]"] ~= "" |> stringify
-    let strLen  = countElements(trimmed)
+    var sanitizedStr = NSMutableString(string:hex)
+    sanitizedStr["[^a-fA-F0-9]"] ~= ""
+    let sanitized = String(sanitizedStr)
+    let strLen = countElements(sanitized)
 
     if strLen != 6 && strLen != 8 {
         return nil
     }
 
-    let groups = String(trimmed)["([:xdigit:][:xdigit:])"].matches()
+    let groups = String(sanitized)["([:xdigit:][:xdigit:])"].matches()
     if groups.count < 3 {
         return nil
     }
@@ -195,7 +197,8 @@ public func trim(str:String) -> String {
 
 public func rgbaFromRGBAString(string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
 {
-    let sanitized = string["[^0-9,\\.]"] ~= ""
+    var sanitized = NSMutableString(string:string)
+    sanitized["[^0-9,\\.]"] ~= ""
     let parts: [String] = String(sanitized) |> splitOn(",") |> map‡ (trim)
     if parts.count != 4 {
         return nil
