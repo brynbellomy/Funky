@@ -484,15 +484,25 @@ public func zipMapLeft <C: CollectionType, T> (transform: C.Generator.Element ->
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.
  */
-public func select <S: SequenceType> (predicate: S.Generator.Element -> Bool) (seq: S) -> [S.Generator.Element] {
-    return filter(seq, predicate)
+public func selectWhere
+    <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> D
+{
+    var keepers = D()
+    for item in seq {
+        if predicate(item) == true {
+            keepers.append(item)
+        }
+    }
+    return keepers
 }
 
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.
  */
-public func select <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
-    return dict |> pairs |> select(predicate) |> mapToDictionary(id)
+public func selectWhere <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
+    let arr: [(K, V)] = dict |> pairs |> selectWhere(predicate)
+    return arr |> mapToDictionary(id)
 }
 
 
@@ -507,6 +517,23 @@ public func select <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
 */
 public func mapr <S: SequenceType, T> (transform: S.Generator.Element -> T) (source: S) -> [T] {
     return map(source, transform)
+}
+
+/**
+    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:
+
+    `let descriptions = someCollection |> mapr { $0.description }`
+
+    :param: transform The transformation function to apply to each incoming element.
+    :param: source The collection to transform.
+    :returns: The transformed collection.
+*/
+public func mapTo <S: SequenceType, D: ExtensibleCollectionType> (transform: S.Generator.Element -> D.Generator.Element) (source: S) -> D {
+    var mapped = D()
+    for item in source {
+        mapped.append(transform(item))
+    }
+    return mapped
 }
 
 /**
