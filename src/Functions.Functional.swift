@@ -767,7 +767,7 @@ public func find <C: CollectionType where C.Generator.Element: Equatable>
 
 
 
-public func findWhere <C: CollectionType where C.Generator.Element: Equatable>
+public func findWhere <C: CollectionType>
     (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
 {
     var maybeIndex : C.Index? = domain.startIndex
