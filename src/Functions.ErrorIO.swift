@@ -22,7 +22,7 @@ public func coalesce <T> (arr:[Result<T>]) -> Result<[T]>
     }
 }
 
-public func coalesce <T, U> (arr:[(Result<T>, Result<U>)]) -> Result<[(T, U)]>
+public func coalesce2 <T, U> (arr:[(Result<T>, Result<U>)]) -> Result<[(T, U)]>
 {
     let errorIO = arr |> reducer(ErrorIO()) { (var into, each) in
         let (left, right) = each
