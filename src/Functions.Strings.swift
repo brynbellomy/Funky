@@ -104,7 +104,7 @@ public func describe <K, V> (dict:[K: V], formatClosure:(K, V) -> String) -> Str
     return dict |> map‡ (formatClosure)
                 |> map‡ (indent)
                 |> joinWith(",\n")
-                |> { "\n\($0)\n" }
+                |> { "{\n\($0)\n}" }
 }
 
 

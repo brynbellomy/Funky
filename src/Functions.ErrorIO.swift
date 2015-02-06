@@ -22,6 +22,25 @@ public func coalesce <T> (arr:[Result<T>]) -> Result<[T]>
     }
 }
 
+public func coalesce2 <T, U> (arr:[(Result<T>, Result<U>)]) -> Result<[(T, U)]>
+{
+    let errorIO = arr |> reducer(ErrorIO()) { (var into, each) in
+        let (left, right) = each
+
+        if let error = left.error()  { into <~ error }
+        if let error = right.error() { into <~ error }
+        return into
+    }
+
+    if errorIO.errors.count > 0 {
+        return failure(errorIO)
+    }
+    else {
+        return arr  |> map‡ { ($0.0.value()!, $0.1.value()!) }
+                    |> success
+    }
+}
+
 
 public func failure <T> (message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T>
 {
