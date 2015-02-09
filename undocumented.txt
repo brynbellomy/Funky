@@ -124,50 +124,28 @@ Functions.ErrorIO.swift
 	public func coalesce2 <T, U> (arr:[(Result<T>, Result<U>)]) -> Result<[(T, U)]>
 	public func failure <T> (message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T>
 Functions.Functional.swift
-	public func id <T> (arg:T) -> T
-	public func head
-    <C: CollectionType>
-    (collection: C) -> C.Generator.Element?
-	public func tail
-    <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
-    (collection: C) -> D
-	public func tail
-    <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
-    (collection: C, n: C.Index) -> D
-	public func collect <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element> (seq:S) -> D
-	public func equal <T: Equatable, U: Equatable> (one:(T, U), two:(T, U)) -> Bool
-	public func equal <S: SequenceType, T: SequenceType>
-    (one:S, two:T, equality:(S.Generator.Element, T.Generator.Element) -> Bool) -> Bool
 	public func both <T, U>
     (one:T?, two:U?) -> (T, U)?
 	public func any <S: SequenceType>
     (predicate: S.Generator.Element -> Bool) (seq: S) -> Bool
 	public func all <S: SequenceType>
     (predicate: S.Generator.Element -> Bool) (seq: S) -> Bool
-	public func all <T, U, V>
+	public func all
+    <T, U, V>
     (one:T?, two:U?, three:V?) -> (T, U, V)?
-	public func all <T, U, V, W>
+	public func all
+    <T, U, V, W>
     (one:T?, two:U?, three:V?, four:W?) -> (T, U, V, W)?
-	public func isSuccess <T> (result:Result<T>) -> Bool
-	public func isFailure <T> (result:Result<T>) -> Bool
-	public func unwrapValue <T> (result: Result<T>) -> T?
-	public func unwrapError <T> (result: Result<T>) -> NSError?
-	public func zip2 <T, U> (one:T) (two:U) -> (T, U)
-	public func zip3 <T, U, V>  (one:T) (two:U) (three:V) -> (T, U, V)
-	public func zipseq <S: SequenceType, T: SequenceType>
+	public func zipseq
+    <S: SequenceType, T: SequenceType>
     (one:S, two:T) -> SequenceOf<(S.Generator.Element, T.Generator.Element)>
 	public func unfold <T, U> (closure: T -> (U, T)?) (initial:T) -> SequenceOf<U>
-	public func partition <S: SequenceType, T where T == S.Generator.Element>
+	public func partition
+    <S: SequenceType, T where T == S.Generator.Element>
     (predicate:T -> Bool) (seq:S) -> ([T], [T])
-	public func contains <I: Comparable, C: CollectionType where I == C.Index>
-    (c: C, range: Range<I>) -> Bool
-	public func mapLeft1 <T, U, V> (transform:T -> V) (tuple:(T, U)) -> (V, U)
-	public func mapLeft <T, U, V> (transform: T -> V) (seq:[T: U]) -> [(V, U)]
-	public func mapLeft <T, U, V> (transform: T -> V) (seq:[(T, U)]) -> [(V, U)]
 	public func mapRight1 <T, U, V> (transform:U -> V) (tuple:(T, U)) -> (T, V)
 	public func mapRight <T, U, V> (transform: U -> V) (seq:[T: U]) -> [(T, V)]
-	public func mapRight <T, U, V> (transform: U -> V) (seq:[(T, U)]) -> [(T, V)]
-	public func mapKeys <T, U, V> (transform: T -> V) (seq:[T: U]) -> [V: U]
+	public func mapKeys <T, U, V> (transform: T -> V) (dict:[T: U]) -> [V: U]
 	public func mapValues <T, U, V> (transform: U -> V) (seq:[T: U]) -> [T: V]
 	public func makeLeft <T, U> (transform:T -> U) (value:T) -> (U, T)
 	public func makeRight <T, U> (transform:T -> U) (value:T) -> (T, U)
@@ -181,22 +159,6 @@ Functions.Functional.swift
     <K: Hashable, V, S: SequenceType where S.Generator.Element == V>
     (keyClosure:V -> K) (seq:S) -> [K: [V]]
 	public func pairs <K: Hashable, V> (dict:[K: V]) -> [(K, V)]
-	public func isNil <T: AnyObject> (val:T?) -> Bool
-	public func isNil <T: NilLiteralConvertible> (val:T?) -> Bool
-	public func isNil <T> (val:T?) -> Bool
-	public func nonNil <T> (value:T?) -> Bool
-	public func rejectIf <S: SequenceType, T where S.Generator.Element == T> (predicate:T -> Bool) (source: S) -> [T]
-	public func rejectIfAndDispose
-    <S: SequenceType, T where S.Generator.Element == T>
-    (predicate:T -> Bool) (disposal:T -> Void) (source: S) -> [T]
-	public func doSide<T, X>(closure: T -> X)(data: T) -> T
-	public func doSide2<T, U, X>(closure: (T, U) -> X)(one:T, two:U) -> (T, U)
-	public func doSide3<T, U, V, X>(closure: (T, U, V) -> X)(one:T, two:U, three:V) -> (T, U, V)
-	public func findWhere <C: CollectionType>
-    (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
-	public func decompose <T> (array:[T]) -> (head: T, tail: [T])?
-	public func valueForKeypath <K: Hashable, V> (dictionary:[K: V], keypath:[K]) -> V?
-	public func setValueForKeypath (var dict:[String: AnyObject], keypath:[String], value: AnyObject?) -> [String: AnyObject]
 	public func mapIfIndex
     <S: SequenceType, C: ExtensibleCollectionType where S.Generator.Element == C.Generator.Element>
     (source: S, transform: (S.Generator.Element) -> S.Generator.Element, ifIndex: Int -> Bool)
@@ -212,42 +174,7 @@ Operators.compose.swift
 	public func />> <T, U, V> (f: T -> Result<U>, g: U -> V) -> T -> Result<V>
 	public func >>> <T, U> (f: T -> U, g: U -> Void) -> T -> Void
 	public func |>> <T, U> (f: T -> Result<U>, g: Result<U> -> Void) -> T -> Void
-Functions.File.swift
-	public func basename(path:String) -> String
-	public func extname(path:String) -> String
-	public func dirname(path:String) -> String
 Functions.Strings.swift
-	public func pad(string:String, length:Int) -> String
-	public func padToSameLength <S: SequenceType where S.Generator.Element == String> (strings:S) -> [S.Generator.Element]
-	public func padKeysToSameLength <V> (dict: [String: V]) -> [String: V]
-	public func substringFromIndex (index:Int) (string:String) -> String
-{
-    let
-	public func substringToIndex (index:Int) (string:String) -> String
-{
-    let
-	public func describe <T> (array:[T]) -> String
-{
-    retu
-	public func describe <T> (array:[T], formatElement:(T) -> String) -> String
-{
-    retu
-	public func describe <K, V> (dict:[K: V]) -> String
-{
-    func r
 	func renderKeyValue(key:String, value:V) -> String { return "\(
-	public func describe <K, V> (dict:[K: V], formatClosure:(K, V) -> String) -> String
-{
-    return d
-	public func indent(string:String) -> String
-{
-    let spaces =
-	public func readHexInt(str:String) -> UInt32? {
-    var i: UInt32
-	public func trim(str:String) -> String {
-    return str.str
-	public func rgbaFromRGBAString(string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
-{
-    var sanitized
 	func toCGFloat() -> CGFloat? {
         return CGFlo
