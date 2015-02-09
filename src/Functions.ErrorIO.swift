@@ -42,20 +42,14 @@ public func coalesce2 <T, U> (arr:[(Result<T>, Result<U>)]) -> Result<[(T, U)]>
 }
 
 
-public func failure <T> (message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T>
-{
-    let userInfo: [NSObject: AnyObject] = [
-        NSLocalizedDescriptionKey: message,
-        "file": file,
-        "line": line,
-    ]
-    return failure(ErrorIO.defaultError(userInfo))
+public func failure <T> (message: String, file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+    return failure(ErrorIO.defaultError(message, file:file, line:line))
 }
 
 
-public func failure <T> (file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
-    return failure("", file: file, line: line)
-}
+//public func failure <T> (file: String = __FILE__, line: Int = __LINE__) -> Result<T> {
+//    return failure("", file: file, line: line)
+//}
 
 
 

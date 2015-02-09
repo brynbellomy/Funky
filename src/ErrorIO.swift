@@ -9,9 +9,34 @@
 import Foundation
 import LlamaKit
 
+func formatError(error:NSError) -> String
+{
+    if let errorIO = error as? ErrorIO {
+        return errorIO.localizedDescription
+    }
+    else {
+        if let (file, line) = both(error.userInfo?["file"] as? String, error.userInfo?["line"] as? Int) {
+            return "[\(file) : \(line)] \(error.localizedDescription)"
+        }
+        return "\(error.localizedDescription)"
+    }
+}
 
+
+/**
+    The primary purpose of `ErrorIO` (a subclass of `NSError`) is to attempt to standardize a
+    method for coalescing multiple errors.  For example, a task with multiple subtasks might
+    return a `Result<T>` the error type of which is an `ErrorIO` containing multiple errors
+    from multiple failed subtasks.  `ErrorIO` implements `SequenceType`, `CollectionType`,
+    `ExtensibleCollectionType`, and `ArrayLiteralConvertible`.
+ */
 public class ErrorIO: NSError
 {
+    public struct Constants {
+        public static let FileKey = "__file__"
+        public static let LineKey = "__line__"
+    }
+    
     public class var defaultDomain: String { return "com.illumntr.ErrorIO" }
     public class var defaultCode:   Int    { return 1 }
 
@@ -21,7 +46,7 @@ public class ErrorIO: NSError
     public private(set) var errors = UnderlyingCollection()
 
     override public var localizedDescription: String {
-        let localizedErrors = describe(errors) { $0.localizedDescription }
+        let localizedErrors = describe(errors) { formatError($0) |> indent }
         return "<ErrorIO: errors = \(localizedErrors)>"
     }
 
@@ -55,17 +80,18 @@ public class ErrorIO: NSError
         return ErrorIO() <~ NSError(domain: ErrorIO.defaultDomain, code: ErrorIO.defaultCode, userInfo: userInfo)
     }
 
-    public class func defaultError(message: String, file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
+    public class func defaultError(message: String, file: String = __FILE__, line: Int = __LINE__) -> ErrorIO
+    {
         let userInfo: [NSObject: AnyObject] = [
             NSLocalizedDescriptionKey: message,
-            "file": file,
-            "line": line,
+            Constants.FileKey:         file,
+            Constants.LineKey:         line,
         ]
         return defaultError(userInfo)
     }
 
     public class func defaultError(file: String = __FILE__, line: Int = __LINE__) -> ErrorIO {
-        let userInfo: [NSObject: AnyObject] = [ "file": file, "line": line, ]
+        let userInfo: [NSObject: AnyObject] = [ Constants.FileKey: file, Constants.LineKey: line, ]
         return defaultError(userInfo)
     }
 

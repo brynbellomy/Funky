@@ -45,6 +45,33 @@ class FunctionsFunctionalTests: QuickSpec
 
             }
         }
+        
+        describe("setValueForKeypath()") {
+            it("should set a value in a nested tree of string-keyed dictionaries") {
+                let dict = [
+                    "an object": [
+                        "one": 111,
+                        "two": 222,
+                        "three": 333,
+                    ]
+                ]
+                
+                let maybeChanged = setValueForKeypath(dict, ["an object", "two"], Int(5432))
+                
+                expect(maybeChanged.isSuccess()).to(beTrue())
+                expect(maybeChanged.value()).toNot(beNil())
+                
+                let changed = maybeChanged.value()!
+                if let anObject = changed["an object"] as? [String: AnyObject]
+                {
+                    if let value = anObject["two"] as? Int {
+                        expect(value) == 5432
+                    }
+                    else { expect(1).to(equal(2)) } // there's gotta be a better way to do this
+                }
+                else { expect(1).to(equal(2)) }
+            }
+        }
     }
 }
 

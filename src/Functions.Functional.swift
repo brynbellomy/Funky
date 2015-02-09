@@ -9,12 +9,20 @@
 import LlamaKit
 
 
+/**
+    Returns its argument.
+ */
 public func id <T> (arg:T) -> T {
     return arg
 }
 
 
-public func head <C: CollectionType> (collection: C) -> C.Generator.Element?
+/**
+    Returns the first element of `collection` or `nil` if `collection` is empty.
+ */
+public func head
+    <C: CollectionType>
+    (collection: C) -> C.Generator.Element?
 {
     if countElements(collection) > 0 {
         return collection[collection.startIndex]
@@ -23,7 +31,22 @@ public func head <C: CollectionType> (collection: C) -> C.Generator.Element?
 }
 
 
-public func tail <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
+/**
+    Returns a collection containing all but the first element of `collection`.
+ */
+public func tail
+    <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
+    (collection: C) -> D
+{
+    return tail(collection, collection.startIndex.successor())
+}
+
+
+/**
+    Returns a collection containing all but the first `n` elements of `collection`.
+ */
+public func tail
+    <C: CollectionType, D: ExtensibleCollectionType where C.Generator.Element == D.Generator.Element>
     (collection: C, n: C.Index) -> D
 {
     var theTail = D()
@@ -34,7 +57,15 @@ public func tail <C: CollectionType, D: ExtensibleCollectionType where C.Generat
     return theTail
 }
 
-public func collect <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element> (seq:S) -> D
+
+/**
+    Collects a sequence (`SequenceType`) into a collection (`ExtensibleCollectionType`).  The
+    specific type of the returned collection must be stated explicitly.  For example:  
+    `let array: [String] = stringSequence |> collect`
+ */
+public func collect
+    <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element>
+    (seq:S) -> D
 {
     var gen = seq.generate()
 
@@ -46,12 +77,23 @@ public func collect <S: SequenceType, D: ExtensibleCollectionType where S.Genera
 }
 
 
-public func equal <T: Equatable, U: Equatable> (one:(T, U), two:(T, U)) -> Bool {
+/**
+    Returns `true` iff `one.0` == `two.0` and `one.1` == `two.1`.
+ */
+public func equal
+    <T: Equatable, U: Equatable>
+    (one:(T, U), two:(T, U)) -> Bool
+{
     return one.0 == two.0 && one.1 == two.1
 }
 
 
-public func equal <S: SequenceType, T: SequenceType>
+/**
+    Returns `true` iff the corresponding elements of sequences `one` and `two` all satisfy
+    the provided `equality` predicate.
+ */
+public func equal
+    <S: SequenceType, T: SequenceType>
     (one:S, two:T, equality:(S.Generator.Element, T.Generator.Element) -> Bool) -> Bool
 {
     var gen1 = one.generate()
@@ -102,7 +144,8 @@ public func all <S: SequenceType>
 }
 
 
-public func all <T, U, V>
+public func all
+    <T, U, V>
     (one:T?, two:U?, three:V?) -> (T, U, V)?
 {
     if let (one, two) = both(one, two) {
@@ -114,7 +157,8 @@ public func all <T, U, V>
 }
 
 
-public func all <T, U, V, W>
+public func all
+    <T, U, V, W>
     (one:T?, two:U?, three:V?, four:W?) -> (T, U, V, W)?
 {
     if let (one, two) = both(one, two)? {
@@ -126,36 +170,56 @@ public func all <T, U, V, W>
 }
 
 
+/**
+    This function simply calls `result.isSuccess()` but is more convenient in functional pipelines.
+ */
 public func isSuccess <T> (result:Result<T>) -> Bool {
     return result.isSuccess()
 }
 
 
+/**
+    This function simply calls `!result.isSuccess()` but is more convenient in functional pipelines.
+ */
 public func isFailure <T> (result:Result<T>) -> Bool {
     return !isSuccess(result)
 }
 
 
+/**
+    This function simply calls `result.value()` but is more convenient in functional pipelines.
+ */
 public func unwrapValue <T> (result: Result<T>) -> T? {
     return result.value()
 }
 
 
+/**
+    This function simply calls `result.error()` but is more convenient in functional pipelines.
+ */
 public func unwrapError <T> (result: Result<T>) -> NSError? {
     return result.error()
 }
 
 
+/**
+    Curried function that returns its arguments zipped together into a 2-tuple.
+ */
 public func zip2 <T, U> (one:T) (two:U) -> (T, U) {
     return (one, two)
 }
 
 
+/**
+    Curried function that returns its arguments zipped together into a 3-tuple.
+ */
 public func zip3 <T, U, V>  (one:T) (two:U) (three:V) -> (T, U, V) {
     return (one, two, three)
 }
 
-public func zipseq <S: SequenceType, T: SequenceType>
+
+public func zipseq
+    <S: SequenceType, T: SequenceType>
     (one:S, two:T) -> SequenceOf<(S.Generator.Element, T.Generator.Element)>
 {
     return ZipGenerator2(one.generate(), two.generate())
@@ -195,7 +259,8 @@ public func unfold <T, U> (closure: T -> (U, T)?) (initial:T) -> SequenceOf<U>
 //partition p xs = foldr (select p) ([],[]) xs
 //
 
-public func partition <S: SequenceType, T where T == S.Generator.Element>
+public func partition
+    <S: SequenceType, T where T == S.Generator.Element>
     (predicate:T -> Bool) (seq:S) -> ([T], [T])
 {
     let start = ([T](), [T]())
@@ -212,24 +277,43 @@ public func partition <S: SequenceType, T where T == S.Generator.Element>
 }
 
 
-public func contains <I: Comparable, C: CollectionType where I == C.Index>
-    (c: C, range: Range<I>) -> Bool
+/**
+    Returns `true` iff `range` contains only valid indices of `collection`.
+ */
+public func contains
+    <I: Comparable, C: CollectionType where I == C.Index>
+    (collection: C, range: Range<I>) -> Bool
 {
-    let interval: HalfOpenInterval = c.startIndex ..< c.endIndex
+    let interval: HalfOpenInterval = collection.startIndex ..< collection.endIndex
     return interval ~= range.startIndex && interval ~= range.endIndex
 }
 
 
-public func mapLeft1 <T, U, V> (transform:T -> V) (tuple:(T, U)) -> (V, U) {
+/**
+    Applies `transform` to the first element of `tuple` and returns the resulting tuple.
+ */
+public func mapLeft1
+    <T, U, V>
+    (transform:T -> V) (tuple:(T, U)) -> (V, U)
+{
     return (transform(tuple.0), tuple.1)
 }
 
 
-public func mapLeft <T, U, V> (transform: T -> V) (seq:[T: U]) -> [(V, U)] {
-    return map(seq, mapLeft1(transform))
+/**
+    Applies `transform` to the key of each element of `dict` and returns the resulting
+    sequence of key-value tuples as an `Array`.  If you need a dictionary instead of a
+    tuple array, simply pass the return value of this function through `mapDictionary { $0 }`.
+ */
+public func mapLeft <T, U, V> (transform: T -> V) (dict:[T: U]) -> [(V, U)] {
+    return map(dict, mapLeft1(transform))
 }
 
 
+/**
+    Applies `transform` to the first element of each tuple in `seq` and returns the resulting
+    `Array` of tuples.
+ */
 public func mapLeft <T, U, V> (transform: T -> V) (seq:[(T, U)]) -> [(V, U)] {
     return map(seq, mapLeft1(transform))
 }
@@ -245,13 +329,17 @@ public func mapRight <T, U, V> (transform: U -> V) (seq:[T: U]) -> [(T, V)] {
 }
 
 
+/**
+    Applies `transform` to the second element of each tuple in `seq` and returns the resulting
+    `Array` of tuples.
+ */
 public func mapRight <T, U, V> (transform: U -> V) (seq:[(T, U)]) -> [(T, V)] {
     return map(seq, mapRight1(transform))
 }
 
 
-public func mapKeys <T, U, V> (transform: T -> V) (seq:[T: U]) -> [V: U] {
-    return mapLeft(transform)(seq:seq)
+public func mapKeys <T, U, V> (transform: T -> V) (dict:[T: U]) -> [V: U] {
+    return mapLeft(transform)(dict:dict)
         |> mapToDictionary(id)
 }
 
@@ -265,6 +353,7 @@ public func mapValues <T, U, V> (transform: U -> V) (seq:[T: U]) -> [T: V] {
 public func makeLeft <T, U> (transform:T -> U) (value:T) -> (U, T) {
     return (transform(value), value)
 }
+
 
 public func makeRight <T, U> (transform:T -> U) (value:T) -> (T, U) {
     return (value, transform(value))
@@ -292,6 +381,22 @@ public func takeFirst <S: SequenceType> (predicate: S.Generator.Element -> Bool)
 }
 
 
+public func takeWhile
+    <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> [S.Generator.Element]
+{
+    var taken = Array<S.Generator.Element>()
+    for item in seq
+    {
+        if predicate(item) == true {
+            taken.append(item)
+        }
+        else { break }
+    }
+    return taken
+}
+
+
 public func selectFailures <T> (array:[Result<T>]) -> [NSError] {
     return array |> mapFilter { $0.error() }
 }
@@ -306,7 +411,7 @@ public func rejectFailures <T> (source: [Result<T>]) -> [T]
 
 public func rejectFailuresAndDispose <T> (disposal:NSError -> Void) (source: [Result<T>]) -> [T]
 {
-    return source |> rejectIfAndDispose({ !$0.isSuccess() })({ disposal($0.error()!) })
+    return source |> rejectIfAndDispose({ !isSuccess($0) })({ disposal($0.error()!) })
                   |> mapFilter(unwrapValue)
 }
 
@@ -387,35 +492,38 @@ public func curry
 
 
 /**
-    Curries a binary function and swaps the placement of the arguments.  Useful for bringing the Swift built-in collection functions into functional pipelines.  For example:
-
-    someArray |> currySwap(map)({ $0 ... })
-
-    (...or whatever).
+    Curries a binary function and swaps the placement of the arguments.  Useful for
+    bringing the Swift built-in collection functions into functional pipelines.  For
+    example: `someArray |> currySwap(map)({ $0 ... })`.  See also the `‡` operator,
+    which is equivalent and more concise.
  */
 public func currySwap <T, U, V> (f: (T, U) -> V) -> U -> T -> V {
     return { x in { y in f(y, x) }}
 }
 
 
+/** Returns `true` if `value` is `nil`, `false` otherwise. */
 public func isNil <T: AnyObject> (val:T?) -> Bool {
     return val === nil
 }
 
 
+/** Returns `true` if `value` is `nil`, `false` otherwise. */
 public func isNil <T: NilLiteralConvertible> (val:T?) -> Bool {
     return val == nil
 }
 
 
+/** Returns `true` if `value` is `nil`, `false` otherwise. */
 public func isNil <T> (val:T?) -> Bool {
     switch val {
         case .Some(let _): return true
-        case .None: return false
+        case .None:        return false
     }
 }
 
 
+/** Returns `true` if `value` is non-`nil`, `false` otherwise. */
 public func nonNil <T> (value:T?) -> Bool {
     if let value = value? {
         return true
@@ -424,7 +532,10 @@ public func nonNil <T> (value:T?) -> Bool {
 }
 
 
-/** Curried function that maps a transform function over a given object and returns a 2-tuple of the form `(object, transformedObject)`. */
+/**
+    Curried function that maps a transform function over a given object and
+    returns a 2-tuple of the form `(object, transformedObject)`.
+ */
 public func zipMap <T, U> (transform: T -> U) (object: T) -> (T, U)
 {
     let transformed = transform(object)
@@ -507,7 +618,7 @@ public func selectWhere <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K:
 
 
 /**
-    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:
+    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:  
 
     `let descriptions = someCollection |> mapr { $0.description }`
 
@@ -520,9 +631,11 @@ public func mapr <S: SequenceType, T> (transform: S.Generator.Element -> T) (sou
 }
 
 /**
-    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:
+    A curried, argument-reversed version of `map` for use in functional pipelines.  `mapTo` is capable
+    of returning the resulting mapped collection as any `ExtensibleCollectionType`.  The return type
+    must therefore always be explicitly specified.  For example:  
 
-    `let descriptions = someCollection |> mapr { $0.description }`
+    `let descriptions: [String] = someCollection |> mapr { $0.description }`
 
     :param: transform The transformation function to apply to each incoming element.
     :param: source The collection to transform.
@@ -537,7 +650,10 @@ public func mapTo <S: SequenceType, D: ExtensibleCollectionType> (transform: S.G
 }
 
 /**
-    Curried function that maps a transform function over a sequence and filters nil values from the resulting collection before returning it.  Note that you must specify the generic parameter `D` (the return type) explicitly.  Small pain in the ass for the lazy, but it lets you ask for any kind of `ExtensibleCollectionType` that you could possibly want.
+    Curried function that maps a transform function over a sequence and filters nil values from the
+    resulting collection before returning it.  Note that you must specify the generic parameter `D`
+    (the return type) explicitly.  Small pain in the ass for the lazy, but it lets you ask for any
+    kind of `ExtensibleCollectionType` that you could possibly want.
 
     :param: transform The transform function.
     :param: source The sequence to map.
@@ -556,7 +672,8 @@ public func mapFilter <S: SequenceType, D: ExtensibleCollectionType> (transform:
 
 
 /**
-    Curried function that maps a transform function over a sequence and filters nil values from the resulting `Array` before returning it.
+    Curried function that maps a transform function over a sequence and filters `nil` values
+    from the resulting `Array` before returning it.
 
     :param: transform The transform function.
     :param: source The sequence to map.
@@ -574,6 +691,10 @@ public func mapFilter <S: SequenceType, T> (transform: S.Generator.Element -> T?
 }
 
 
+/**
+    Curried function that rejects values from `source` if they satisfy `predicate`.  The
+    filtered sequence is returned as an `Array`. 
+ */
 public func rejectIf <S: SequenceType, T where S.Generator.Element == T> (predicate:T -> Bool) (source: S) -> [T]
 {
     var results = [T]()
@@ -587,6 +708,17 @@ public func rejectIf <S: SequenceType, T where S.Generator.Element == T> (predic
 }
 
 
+/**
+    Curried function that rejects values from `source` if they satisfy `predicate`.  Any
+    time a value is rejected, `disposal(value)` is called.  The filtered sequence is
+    returned as an `Array`.  This function is mainly useful for logging failures in
+    functional pipelines.
+
+    :param: predicate The predicate closure to which each sequence element is passed.
+    :param: disposal The disposal closure that is invoked with each rejected element.
+    :param: source The sequence to filter.
+    :returns: The filtered sequence as an `Array`.
+ */
 public func rejectIfAndDispose
     <S: SequenceType, T where S.Generator.Element == T>
     (predicate:T -> Bool) (disposal:T -> Void) (source: S) -> [T]
@@ -610,15 +742,20 @@ public func rejectIfAndDispose
     pipelines.  Note that it returns the collection, `source`, unmodified.  This is to facilitate
     fluent chaining of such pipelines.  For example:
 
+    <pre>
     someCollection |> doEach { println("the object is \($0)") }
-                   |> mapr    { $0.description }
+                   |> map‡    { $0.description }
                    |> doEach { println("the object's description is \($0)") }
+    </pre>
 
     :param: transform The transformation function to apply to each incoming element.
     :param: source The collection to transform.
     :returns: The collection, unmodified.
  */
-public func doEach<S : SequenceType, T>(closure: S.Generator.Element -> T)(source: S) -> S {
+public func doEach
+    <S: SequenceType, T>
+    (closure: S.Generator.Element -> T) (source: S) -> S
+{
     for item in source {
         closure(item)
     }
@@ -626,19 +763,40 @@ public func doEach<S : SequenceType, T>(closure: S.Generator.Element -> T)(sourc
 }
 
 
-public func doSide<T, X>(closure: T -> X)(data: T) -> T {
+/**
+    Invokes a closure containing side effects, ignores the return value of `closure`,
+    and returns the value of its argument `data`.
+ */
+public func doSide
+    <T, X>
+    (closure: T -> X) (data: T) -> T
+{
     closure(data)
     return data
 }
 
 
-public func doSide2<T, U, X>(closure: (T, U) -> X)(one:T, two:U) -> (T, U) {
+/**
+    Invokes a closure containing side effects, ignores the return value of `closure`,
+    and returns the value of its argument `data`.
+ */
+public func doSide2
+    <T, U, X>
+    (closure: (T, U) -> X) (one:T, two:U) -> (T, U)
+{
     closure(one, two)
     return (one, two)
 }
 
 
-public func doSide3<T, U, V, X>(closure: (T, U, V) -> X)(one:T, two:U, three:V) -> (T, U, V) {
+/**
+    Invokes a closure containing side effects, ignores the return value of `closure`,
+    and returns the value of its argument `data`.
+ */
+public func doSide3
+    <T, U, V, X>
+    (closure: (T, U, V) -> X) (one:T, two:U, three:V) -> (T, U, V)
+{
     closure(one, two, three)
     return (one, two, three)
 }
@@ -650,7 +808,7 @@ public func doSide3<T, U, V, X>(closure: (T, U, V) -> X)(one:T, two:U, three:V) 
     :param: collection The collection to filter.
     :returns: The collection with all `nil` elements removed.
 */
-public func rejectNil<T>(collection: [T?]) -> [T]
+public func rejectNil <T> (collection: [T?]) -> [T]
 {
     var nonNilValues = [T]()
     for item in collection
@@ -663,19 +821,22 @@ public func rejectNil<T>(collection: [T?]) -> [T]
 }
 
 
-
 /**
-    Returns nil if either value in the provided 2-tuple is nil.  Otherwise, returns the input tuple with its inner `Optional`s flattened (in other words, the returned tuple is guaranteed by the type-checker to have non-nil elements).
+    Returns `nil` if either value in the provided 2-tuple is `nil`.  Otherwise, returns the input tuple with
+    its inner `Optional`s flattened (in other words, the returned tuple is guaranteed by the type-checker to
+    have non-`nil` elements).  Another way to think about `rejectEitherNil` is that it is a logical transform
+    that moves the `?` (`Optional` unary operator) from inside the tuple braces to the outside.
 
     :param: tuple The tuple to examine.
     :returns: The tuple or nil.
 */
-public func rejectEitherNil <T, U>
+public func rejectEitherNil
+    <T, U>
     (tuple: (T?, U?)) -> (T, U)?
 {
-    // have to use if-let clauses to recursively flatten Optional types in a single statement
-    if let zero = tuple.0? {
-        if let one = tuple.1? {
+    // Note to self: CANNOT USE `both()` HERE!!!  `both()` calls this function, unfortunately.
+    if let zero = tuple.0 {
+        if let one = tuple.1 {
             return (zero, one)
         }
     }
@@ -684,12 +845,16 @@ public func rejectEitherNil <T, U>
 
 
 /**
-    Rejects tuple elements from the provided collection if either value in the tuple is nil.
+    Rejects tuple elements from the provided collection if either value in the tuple is `nil`.  This is often
+    useful when handling the results of multiple subtasks when those results are provided as a `Dictionary`.
+    Such a `Dictionary` can be passed through `pairs()` to create a sequence of key-value tuples that this
+    function can be `mapFilter`ed over.
 
     :param: collection The collection to filter.
     :returns: The provided collection with all tuples containing a `nil` element removed.
 */
-public func rejectEitherNil <T, U>
+public func rejectEitherNil
+    <T, U>
     (collection: [(T?, U?)]) -> [(T, U)]
 {
     return reduce(collection, Array<(T, U)>()) { (var nonNilValues, item) in
@@ -707,9 +872,9 @@ public func rejectEitherNil <T, U>
     :param: keySelector A function taking an element of `array` and returning the key for that element in the returned dictionary.
     :returns: A dictionary comprising the key-value pairs constructed by applying `keySelector` to the values in `array`.
 */
-public func mapToDictionaryKeys <K: Hashable, S: SequenceType>
-    (keySelector:S.Generator.Element -> K)
-    (seq:S) -> [K: S.Generator.Element]
+public func mapToDictionaryKeys
+    <K: Hashable, S: SequenceType>
+    (keySelector:S.Generator.Element -> K) (seq:S) -> [K: S.Generator.Element]
 {
     var result: [K: S.Generator.Element] = [:]
     for item in seq {
@@ -725,9 +890,9 @@ public func mapToDictionaryKeys <K: Hashable, S: SequenceType>
     :param: keySelector A function taking an element of `array` and returning the key for that element in the returned dictionary.
     :returns: A dictionary comprising the key-value pairs constructed by applying `keySelector` to the values in `array`.
 */
-public func mapToDictionary <K: Hashable, V, S: SequenceType>
-    (transform: S.Generator.Element -> (K, V))
-    (seq: S) -> [K: V]
+public func mapToDictionary
+    <K: Hashable, V, S: SequenceType>
+    (transform: S.Generator.Element -> (K, V)) (seq: S) -> [K: V]
 {
     var result: [K: V] = [:]
     for item in seq {
@@ -744,33 +909,11 @@ public func mapToDictionary <K: Hashable, V, S: SequenceType>
     :param: domain The collection to search.
     :returns: The index of the first matching item,  or `nil` if none was found.
  */
-public func find <C: CollectionType where C.Generator.Element: Equatable>
+public func findWhere
+    <C: CollectionType>
     (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
 {
     var maybeIndex: C.Index? = domain.startIndex
-    do
-    {
-        if let index = maybeIndex?
-        {
-            let item = domain[index]
-            if predicate(item) == true {
-                return index
-            }
-
-            maybeIndex = index.successor()
-        }
-
-    } while maybeIndex != nil
-
-    return nil
-}
-
-
-
-public func findWhere <C: CollectionType>
-    (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
-{
-    var maybeIndex : C.Index? = domain.startIndex
     do
     {
         if let index = maybeIndex
@@ -790,25 +933,16 @@ public func findWhere <C: CollectionType>
 
 
 
-/**
-    Converts an array of tuples of type `(K, V)` to a dictionary of type `[K : V]`.
-
-    :param: array The array to convert.
-    :returns: A dictionary.
- */
-public func mapTupleArrayToDictionary <E: Hashable, F> (array:[(E, F)]) -> [E : F]
-{
-    var result: [E : F] = [:]
-    for item in array {
-        result[item.0] = item.1
-    }
-    return result
-}
-
-
-
+//
 // got this from http://www.objc.io/snippets/
+// @@TODO: document
+//
 
+/**
+    Decomposes `array` into a 2-tuple whose `head` property is the first element of `array` and
+    whose `tail` property is an array containing all but the first element of `array`.  If
+    `array.count == 0`, this function returns `nil`.
+ */
 public func decompose <T> (array:[T]) -> (head: T, tail: [T])?
 {
     let theTail = array[1 ..< array.count]
@@ -819,9 +953,9 @@ public func decompose <T> (array:[T]) -> (head: T, tail: [T])?
 }
 
 
-
-
-
+/**
+    Attempts to descend through a nested tree of `Dictionary` objects to the value represented by `keypath`.
+ */
 public func valueForKeypath <K: Hashable, V> (dictionary:[K: V], keypath:[K]) -> V?
 {
     let currentKey = keypath[0]
@@ -839,6 +973,48 @@ public func valueForKeypath <K: Hashable, V> (dictionary:[K: V], keypath:[K]) ->
     }
     return nil
 }
+
+
+/**
+    Attempts to descend through a nested tree of `Dictionary` objects to set the value of the key
+    represented by `keypath`.  If a non-`Dictionary` type is encountered before reaching the end 
+    of `keypath`, a `.Failure` is returned.  Note: this function returns the result of modifying
+    the input `Dictionary` in this way; it does not modify `dict` in place.
+ */
+public func setValueForKeypath
+    (var dict:[String: AnyObject], keypath:[String], value: AnyObject?) -> Result<[String: AnyObject]>
+{
+    precondition(keypath.count > 0, "keypath.count must be > 0")
+    
+    switch keypath.count
+    {
+        case 1:
+            dict[keypath.first!] = value
+            return success(dict)
+        
+        case let c where c > 1:
+            let (firstKey, remainingKeys) = (first(keypath)!, dropFirst(keypath))
+            if dict.indexForKey(firstKey) == nil {
+                dict[firstKey] = [String: AnyObject]() as AnyObject
+            }
+            
+            NSLog("dict[firstKey] = \(dumpString(dict[firstKey]!))")
+            if var subDict = dict[firstKey] as? [String: AnyObject]
+            {
+                return setValueForKeypath(subDict, Array(remainingKeys), value)
+                            .map { changedSubDict in
+                                dict[firstKey] = changedSubDict
+                                return dict
+                            }
+            }
+            else { return failure("setValueForKeypath() -> found a value for dict[firstKey!] but it was not an NSDictionary") }
+        
+        default:
+            return failure("Something weird happened in setValueForKeypath().  keypath.count = \(keypath.count)")
+    }
+}
+
+
 
 
 public func mapIfIndex

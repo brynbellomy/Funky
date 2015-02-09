@@ -28,6 +28,7 @@
 		C5062DEC1A68C3CA00F65B86 /* ErrorIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DE91A68C3CA00F65B86 /* ErrorIOTests.swift */; };
 		C5062DED1A68C3CA00F65B86 /* Functions.FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DEA1A68C3CA00F65B86 /* Functions.FunctionalTests.swift */; };
 		C5062DEE1A68C3CA00F65B86 /* RegexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */; };
+		C57F4BDA1A889F470027D56A /* Functions.File.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57F4BD91A889F470027D56A /* Functions.File.swift */; };
 		FCA93F6DD552D24F3FFC8CA3 /* Pods_FunkyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE724FE2100A75807057C847 /* Pods_FunkyTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		C5062DE91A68C3CA00F65B86 /* ErrorIOTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorIOTests.swift; sourceTree = "<group>"; };
 		C5062DEA1A68C3CA00F65B86 /* Functions.FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.FunctionalTests.swift; sourceTree = "<group>"; };
 		C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexTests.swift; sourceTree = "<group>"; };
+		C57F4BD91A889F470027D56A /* Functions.File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.File.swift; sourceTree = "<group>"; };
 		FFA347E7F7BE595D46D0FDF1 /* Pods-FunkyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunkyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,6 +182,7 @@
 				C5062DD71A68C3B600F65B86 /* Operators.Misc.swift */,
 				C5062DD81A68C3B600F65B86 /* Operators.pipe.swift */,
 				C5062DD91A68C3B600F65B86 /* vendor */,
+				C57F4BD91A889F470027D56A /* Functions.File.swift */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -420,6 +423,7 @@
 				C5062DDC1A68C3B600F65B86 /* Functions.ErrorIO.swift in Sources */,
 				C5062DDD1A68C3B600F65B86 /* Functions.Functional.swift in Sources */,
 				C5062DE31A68C3B600F65B86 /* Operators.compose.swift in Sources */,
+				C57F4BDA1A889F470027D56A /* Functions.File.swift in Sources */,
 				C5062DDF1A68C3B600F65B86 /* Functions.Strings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
