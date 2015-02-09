@@ -152,6 +152,9 @@ Functions.Functional.swift
 	public func takeLeft <T, U> (tuple:(T, U)) -> T
 	public func takeRight <T, U> (tuple:(T, U)) -> U
 	public func takeFirst <S: SequenceType> (predicate: S.Generator.Element -> Bool) (seq:S) -> S.Generator.Element?
+	public func takeWhile
+    <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> [S.Generator.Element]
 	public func selectFailures <T> (array:[Result<T>]) -> [NSError]
 	public func rejectFailures <T> (source: [Result<T>]) -> [T]
 	public func rejectFailuresAndDispose <T> (disposal:NSError -> Void) (source: [Result<T>]) -> [T]
