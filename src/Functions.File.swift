@@ -51,7 +51,7 @@ public func pathComponents(path:String) -> [String] {
 /**
     Returns the relative path (`from` -> `to`).
  */
-public func relativePath(from:String, to:String) -> String
+public func relativePath(#from:String, #to:String) -> String
 {
     let fromParts = pathComponents(from)
     let toParts   = pathComponents(to)
