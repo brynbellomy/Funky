@@ -14,7 +14,7 @@ public func coalesce <T> (arr:[Result<T>]) -> Result<[T]>
 {
     let failures = selectFailures(arr)
     if failures.count > 0 {
-        let errorIO = failures.reduce(ErrorIO(), <~)
+        let errorIO = failures.reduce(ErrorIO(), combine: <~)
         return failure(errorIO)
     }
     else {
