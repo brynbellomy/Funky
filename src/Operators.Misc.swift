@@ -21,7 +21,7 @@ infix operator ?± { associativity right precedence 110 }
     The set-if-non-nil operator.  Will only set `lhs` to `rhs` if `rhs` is non-nil.
  */
 public func =?? <T>(inout lhs:T, maybeRhs: T?) {
-    if let rhs = maybeRhs? {
+    if let rhs = maybeRhs {
         lhs = rhs
     }
 }
@@ -31,7 +31,7 @@ public func =?? <T>(inout lhs:T, maybeRhs: T?) {
     The set-if-non-nil operator.  Will only set `lhs` to `rhs` if `rhs` is non-nil.
  */
 public func =?? <T>(inout lhs:T?, maybeRhs: T?) {
-    if let rhs = maybeRhs? {
+    if let rhs = maybeRhs {
         lhs = rhs
     }
 }
@@ -56,7 +56,7 @@ public func =?? <T>(inout lhs:T?, result: Result<T>) {
 /**
     The initialize-if-nil operator.  Will only set `lhs` to `rhs` if `lhs` is nil.
  */
-public func ??= <T : Any>(inout lhs:T?, rhs: @autoclosure () -> T)
+public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T)
 {
     if lhs == nil {
         lhs = rhs()
@@ -67,7 +67,7 @@ public func ??= <T : Any>(inout lhs:T?, rhs: @autoclosure () -> T)
 /**
     The initialize-if-nil operator.  Will only set `lhs` to `rhs` if `lhs` is nil.
  */
-public func ??= <T : Any>(inout lhs:T?, rhs: @autoclosure () -> T?)
+public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T?)
 {
     if lhs == nil {
         lhs = rhs()
@@ -91,7 +91,7 @@ public func ??= <T : Any>(inout lhs:T?, rhs: @autoclosure () -> T?)
 /**
     Nil coalescing operator for `LlamaKit`'s `Result<T>` type.
  */
-public func ?± <T> (lhs: T?, rhs: @autoclosure () -> Result<T>) -> Result<T>
+public func ?± <T> (lhs: T?, @autoclosure rhs: () -> Result<T>) -> Result<T>
 {
     if let lhs = lhs {
         return success(lhs)
@@ -101,7 +101,7 @@ public func ?± <T> (lhs: T?, rhs: @autoclosure () -> Result<T>) -> Result<T>
     }
 }
 
-public func ?± <T> (lhs: Result<T>, rhs: @autoclosure () -> Result<T>) -> Result<T>
+public func ?± <T> (lhs: Result<T>, @autoclosure rhs: () -> Result<T>) -> Result<T>
 {
     switch lhs {
         case .Success: return lhs
