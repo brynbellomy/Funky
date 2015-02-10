@@ -37,12 +37,19 @@ public class ErrorIO: NSError
         public static let LineKey = "__line__"
     }
     
-    public class var defaultDomain: String { return "com.illumntr.ErrorIO" }
-    public class var defaultCode:   Int    { return 1 }
+    /** The default error domain for `ErrorIO` objects. */
+    public static let defaultDomain = "com.illumntr.ErrorIO"
+    
+    /** The default error code for `ErrorIO` objects. */
+    public static let defaultCode: Int = 1
 
+    /** The `Element` of `ErrorIO` when considered as a sequence/collection. */
     public typealias Element = NSError
+    
+    /** The type of the underlying collection that holds the `NSError`s contained by this `ErrorIO`. */
     public typealias UnderlyingCollection = [Element]
 
+    /** The errors contained by this `ErrorIO`. */
     public private(set) var errors = UnderlyingCollection()
 
     override public var localizedDescription: String {
@@ -124,6 +131,7 @@ extension ErrorIO: CollectionType
     public var startIndex : Index { return errors.startIndex }
     public var endIndex   : Index { return errors.endIndex }
 
+    /** Retrieves the `NSError` at the specified `index`. */
     public subscript(position:Index) -> Generator.Element {
         return errors[position]
     }
