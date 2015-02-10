@@ -72,7 +72,7 @@ public func pad(string:String, length:Int) -> String {
  */
 public func padToSameLength <S: SequenceType where S.Generator.Element == String> (strings:S) -> [S.Generator.Element]
 {
-    let maxLength = strings |> map‡ (countElements)
+    let maxLength = strings |> map‡ (count)
                             |> maxElement
 
     return strings |> map‡ (pad‡ (maxLength))
@@ -88,7 +88,7 @@ public func padToSameLength <S: SequenceType where S.Generator.Element == String
  */
 public func padKeysToSameLength <V> (dict: [String: V]) -> [String: V]
 {
-    let maxLength = dict |> map‡ (takeLeft >>> countElements)
+    let maxLength = dict |> map‡ (takeLeft >>> count)
                          |> maxElement
 
     return dict |> mapKeys(pad‡ (maxLength))
@@ -193,16 +193,15 @@ public func trim(str:String) -> String {
  */
 public func rgbaFromHexCode(hex:String) -> (r:UInt32, g:UInt32, b:UInt32, a:UInt32)?
 {
-    var sanitizedStr = NSMutableString(string:hex)
-    sanitizedStr["[^a-fA-F0-9]"] ~= ""
-    let sanitized = String(sanitizedStr)
-    let strLen = countElements(sanitized)
-
+    let sanitized = (hex =~ Regex("[^a-fA-F0-9]")) |> map‡ ("") 
+    
+    let strLen = count(sanitized)
     if strLen != 6 && strLen != 8 {
         return nil
     }
 
-    let groups = String(sanitized)["([:xdigit:][:xdigit:])"].matches()
+    let groupsRegex = Regex.create("([:xdigit:][:xdigit:])").value()!
+    let groups: [String] = groupsRegex.match(sanitized).generateCaptures() |> collect
     if groups.count < 3 {
         return nil
     }
@@ -253,9 +252,9 @@ public func readHexInt(str:String) -> UInt32? {
  */
 public func rgbaFromRGBAString(string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
 {
-    var sanitized = NSMutableString(string:string)
-    sanitized["[^0-9,\\.]"] ~= ""
-    let parts: [String] = String(sanitized) |> splitOn(",") |> map‡ (trim)
+    let sanitized = (string =~ Regex("[^a-fA-F0-9]")) |> map‡ ("") 
+    
+    let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
     if parts.count != 4 {
         return nil
     }
