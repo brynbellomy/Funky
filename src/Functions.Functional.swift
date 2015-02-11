@@ -88,6 +88,17 @@ public func toArray <C: CollectionType>
 
 
 /**
+    Simply calls `Set(collection)` — however, because constructors cannot be applied like
+    normal functions, this is more convenient in functional pipelines.
+ */
+public func toSet <C: CollectionType>
+    (collection:C) -> Set<C.Generator.Element>
+{
+    return Set(collection)
+}
+
+
+/**
     Returns `true` iff `one.0` == `two.0` and `one.1` == `two.1`.
  */
 public func equal <T: Equatable, U: Equatable>
@@ -695,6 +706,8 @@ public func zipMapLeft <C: CollectionType, T> (transform: C.Generator.Element ->
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.  The return type
     must be explicitly specified, as this function is capable of returning any `ExtensibleCollectionType`.
+
+    :returns: A collection of type `D` containing the elements of `seq` that satisfied `predicate`.
  */
 public func selectWhere
     <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element>
@@ -707,6 +720,18 @@ public func selectWhere
         }
     }
     return keepers
+}
+
+
+/**
+    A curried, argument-reversed version of `filter` for use in functional pipelines.
+
+    :returns: An `Array` containing the elements of `seq` that satisfied `predicate`.
+ */
+public func selectArray <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (seq: S) -> Array<S.Generator.Element>
+{
+    return selectWhere(predicate)(seq:seq)
 }
 
 
