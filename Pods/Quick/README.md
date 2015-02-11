@@ -3,8 +3,7 @@
 Quick is a behavior-driven development framework for Swift and Objective-C.
 Inspired by [RSpec](https://github.com/rspec/rspec), [Specta](https://github.com/specta/specta), and [Ginkgo](https://github.com/onsi/ginkgo).
 
-[![Build Status](https://travis-ci.org/Quick/Quick.svg)](https://travis-ci.org/Quick/Quick)
-
+[![Build Status](https://travis-ci.org/Quick/Quick.svg?branch=swift-1.1)](https://travis-ci.org/Quick/Quick)
 ![](https://raw.githubusercontent.com/Quick/Assets/master/Screenshots/QuickSpec%20screenshot.png)
 
 ```swift
@@ -64,7 +63,7 @@ class TableOfContentsSpec: QuickSpec {
   - [Adding Quick as a Git Submodule](#adding-quick-as-a-git-submodule)
   - [Updating the Quick Submodule](#updating-the-quick-submodule)
   - [Cloning a Repository that Includes a Quick Submodule](#cloning-a-repository-that-includes-a-quick-submodule)
-- [How to Install Quick using Beta CocoaPods](#how-to-install-quick-using-beta-cocoapods)
+- [How to Install Quick using CocoaPods](#how-to-install-quick-using-cocoapods)
 - [How to Install Quick File Templates](#how-to-install-quick-file-templates)
   - [Using Alcatraz](#using-alcatraz)
   - [Manually via the Rakefile](#manually-via-the-rakefile)
@@ -849,8 +848,6 @@ QuickSpecEnd
 
 ## How to Install Quick
 
-> This module is beta software, it currently supports Xcode 6 Beta 4.
-
 Quick provides the syntax to define examples and example groups. Nimble
 provides the `expect(...).to` assertion syntax. You may use either one,
 or both, in your tests.
@@ -864,6 +861,9 @@ To use Quick and Nimble to test your iOS or OS X applications, follow these 4 ea
 
 Example projects with this complete setup is available in the
 [`Examples`](https://github.com/modocache/Quick/tree/master/Examples) directory.
+
+The master branch of Quick supports Swift 1.2. For Swift 1.1 support,
+use the `swift-1.1` branch.
 
 ### 1. Clone the Quick and Nimble repositories
 
@@ -957,24 +957,31 @@ You can read more about Git submodules
 of Git submodules in action, check out any of the repositories linked to
 in the ["Who Uses Quick"](#who-uses-quick) section of this guide.
 
-## How to Install Quick using Beta CocoaPods
+## How to Install Quick using CocoaPods
 
 If you would like to use Quick with CocoaPods today, you need to install the
 beta build of CocoaPods via `[sudo] gem install cocoapods --pre` then add Quick
 to your Podfile.
 
-```
-  pod 'Quick', :git => 'https://github.com/Quick/Quick', :tag => 'v0.2.2'
+```rb
+pod 'Quick'
 ```
 
+If you need the latest cutting-edge code, use the following:
+
+```rb
+pod 'Quick', :head
+```
 
 ## How to Install Quick using [Carthage](https://github.com/Carthage/Carthage)
 As Test targets do not have the "Embedded Binaries" section, the frameworks must be added to the target's "Link Binary With Libraries" as well as a "Copy Files" build phase to copy them to the target's Frameworks destination.  
  > As Carthage builds dynamic frameworks, you will need a valid code signing identity set up.
 
 1. Add Quick to your **[Cartfile.private](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfileprivate)**
+
     ```
     github "Quick/Quick"
+    github "Quick/Nimble"
     ```
     
 2. Run `carthage update` 

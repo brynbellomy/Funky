@@ -43,7 +43,7 @@ public func <|
     (f: (T -> U)?, t: T)
     -> U?
 {
-    return f.map { fn in fn(t) }
+    return map(f) { fn in fn(t) }
 }
 
 

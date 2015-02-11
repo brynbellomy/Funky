@@ -18,8 +18,7 @@ infix operator -<< { associativity left precedence 150 }
 
 public func >>-
     <A, B>
-    (maybeValue: A?, f: A -> B?)
-    -> B?
+    (maybeValue: A?, f: A -> B?) -> B?
 {
     switch maybeValue
     {
@@ -31,8 +30,7 @@ public func >>-
 
 public func >>-
     <A, B>
-    (wrapped: [A], f: A -> [B])
-    -> [B]
+    (wrapped: [A], f: A -> [B]) -> [B]
 {
     return wrapped.map(f).reduce([], combine: +)
 }
@@ -40,8 +38,7 @@ public func >>-
 
 public func >>-
     <A, B>
-    (maybeValue: Result<A>, f: A -> Result<B>)
-    -> Result<B>
+    (maybeValue: Result<A>, f: A -> Result<B>) -> Result<B>
 {
     switch maybeValue {
         case .Success(let box): return f(box.unbox)
@@ -49,10 +46,9 @@ public func >>-
     }
 }
 
+
 public func >>-
-    <E>
-    (maybeValue: Result<()>, f: () -> Result<()>)
-    -> Result<()>
+    (maybeValue: Result<()>, f: () -> Result<()>) -> Result<()>
 {
     switch maybeValue {
         case .Success:          return f()
@@ -62,9 +58,7 @@ public func >>-
 
 
 public func >>-
-    <E>
-    (maybeValue: Result<Bool>, f: () -> Result<Bool>)
-    -> Result<Bool>
+    (maybeValue: Result<Bool>, f: () -> Result<Bool>) -> Result<Bool>
 {
     switch maybeValue {
         case .Success:          return f()

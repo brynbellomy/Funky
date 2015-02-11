@@ -239,7 +239,7 @@ public func normalizeRGBA (colors c:UInt32) (r:UInt32, g:UInt32, b:UInt32, a:UIn
     Attempts to interpret `str` as a hexadecimal integer.  If this succeeds, the integer
     is returned as a `UInt32`.
  */
-public func readHexInt(str:String) -> UInt32? {
+public func readHexInt (str:String) -> UInt32? {
     var i: UInt32 = 0
     let success = NSScanner(string:str).scanHexInt(&i)
     return success ? i : nil
@@ -250,9 +250,14 @@ public func readHexInt(str:String) -> UInt32? {
     Attempts to interpret `string` as an rgba string of the form: `rgba(1.0, 0.2, 0.3, 0.4)`.  
     The values are interpreted as `CGFloat`s from `0.0` to `1.0`.
  */
-public func rgbaFromRGBAString(string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
+public func rgbaFromRGBAString (string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
 {
-    let sanitized = (string =~ Regex("[^a-fA-F0-9]")) |> map‡ ("") 
+    let regex = Regex.create("[^a-fA-F0-9]")
+    if let err = regex.error() {
+        return nil
+    }
+    
+    let sanitized = (string =~ Regex("[^0-9,\\.]")) |> map‡ ("") 
     
     let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
     if parts.count != 4 {

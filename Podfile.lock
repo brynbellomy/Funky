@@ -1,30 +1,32 @@
 PODS:
   - LlamaKit (0.1.1)
-  - Nimble (0.2.0)
-  - Quick (0.2.0)
+  - Nimble (0.3.0)
+  - Quick (0.2.2)
 
 DEPENDENCIES:
   - LlamaKit (~> 0.1.x)
-  - Nimble (from `https://github.com/Quick/Nimble.git`)
-  - Quick (from `https://github.com/Quick/Quick.git`)
+  - Nimble (from `https://github.com/Quick/Nimble.git`, branch `master`)
+  - Quick (from `https://github.com/Quick/Quick.git`, branch `master`)
 
 EXTERNAL SOURCES:
   Nimble:
+    :branch: master
     :git: https://github.com/Quick/Nimble.git
   Quick:
+    :branch: master
     :git: https://github.com/Quick/Quick.git
 
 CHECKOUT OPTIONS:
   Nimble:
-    :commit: 21b17c1427d850ad9f5d26ebeabece8a01da7d75
+    :commit: 406466a5588fd5060c4fdbc7c088e25b782a442f
     :git: https://github.com/Quick/Nimble.git
   Quick:
-    :commit: 20a51898c7999f6a1c13036b1c39951825e0f581
+    :commit: e612b4cc21076a20764b1ef6c4ac51f14cf34c92
     :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
-  LlamaKit: 430d2ae678888d13fe87f8a01d0c4fb69c06eb93
-  Nimble: 79679d4cd5a3710db75e1dd9f5479f71842da6a6
-  Quick: fdcce541eb5d73f5ac78f95c770ca6d6d69f0b81
+  LlamaKit: 25f47a933b6580a6fc159d95adb2e2953c7012e9
+  Nimble: 55fef248ef3703024ce431db817160ad24d89ba3
+  Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
 
-COCOAPODS: 0.36.0.beta.1
+COCOAPODS: 0.36.0.beta.2

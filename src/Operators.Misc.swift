@@ -132,7 +132,9 @@ postfix operator ‡ {}
 public postfix func ‡
     <T, U, R>
     (f: (T, U) -> R) -> U -> T -> R {
-        return currySwap(f)
+        // @@XYZZY
+//        return currySwap(f)
+        return { x in { y in f(y, x) }}
 }
 
 

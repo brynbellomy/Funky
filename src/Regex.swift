@@ -10,18 +10,18 @@ import Foundation
 import LlamaKit
 
 
-public extension String
+private extension String
 {
-    public var fullRange:   Range<String.Index> { return startIndex ..< endIndex }
-    public var fullNSRange: NSRange             { return NSRange(location:0, length:count(self)) }
+    var fullRange:   Range<String.Index> { return startIndex ..< endIndex }
+    var fullNSRange: NSRange             { return NSRange(location:0, length:count(self)) }
     
-    public func convertRange(range: Range<Int>) -> Range<String.Index> {
+    func convertRange (range: Range<Int>) -> Range<String.Index> {
         let start = advance(self.startIndex, range.startIndex)
         let end   = advance(start, range.endIndex - range.startIndex)
         return Range(start: start, end: end)
     }
 
-    public func convertRange(nsrange:NSRange) -> Range<String.Index> {
+    func convertRange (nsrange:NSRange) -> Range<String.Index> {
         let start = advance(self.startIndex, nsrange.location)
         let end   = advance(start, nsrange.length)
         return Range(start: start, end: end)
@@ -92,7 +92,9 @@ public struct Regex
         
         nsRegex.enumerateMatchesInString(string, options:moptions, range:all) {
             (result: NSTextCheckingResult!, flags: NSMatchingFlags, ptr: UnsafeMutablePointer<ObjCBool>) in
-            matches.append(result)
+            if let result = result {
+                matches.append(result)
+            }
         }
         
         return MatchResult(regex:nsRegex, searchString:string, items: matches)

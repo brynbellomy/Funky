@@ -9,13 +9,13 @@
 import Foundation
 import LlamaKit
 
-func formatError(error:NSError) -> String
+private func formatError(error:NSError) -> String
 {
     if let errorIO = error as? ErrorIO {
         return errorIO.localizedDescription
     }
     else {
-        if let (file, line) = both(error.userInfo?["file"] as? String, error.userInfo?["line"] as? Int) {
+        if let file = error.userInfo?["file"] as? String, line = error.userInfo?["line"] as? Int {
             return "[\(file) : \(line)] \(error.localizedDescription)"
         }
         return "\(error.localizedDescription)"
@@ -30,7 +30,7 @@ func formatError(error:NSError) -> String
     from multiple failed subtasks.  `ErrorIO` implements `SequenceType`, `CollectionType`,
     `ExtensibleCollectionType`, and `ArrayLiteralConvertible`.
  */
-public class ErrorIO: NSError
+public class ErrorIO: NSError, ArrayLiteralConvertible
 {
     public struct Constants {
         public static let FileKey = "__file__"
@@ -38,10 +38,10 @@ public class ErrorIO: NSError
     }
     
     /** The default error domain for `ErrorIO` objects. */
-    public static let defaultDomain = "com.illumntr.ErrorIO"
+    public class var defaultDomain: String { return "com.illumntr.ErrorIO" }
     
     /** The default error code for `ErrorIO` objects. */
-    public static let defaultCode: Int = 1
+    public class var defaultCode: Int { return 1 }
 
     /** The `Element` of `ErrorIO` when considered as a sequence/collection. */
     public typealias Element = NSError
@@ -61,24 +61,23 @@ public class ErrorIO: NSError
         super.init(domain: ErrorIO.defaultDomain, code:ErrorIO.defaultCode, userInfo:nil)
     }
 
-    convenience public init(flatten others: ErrorIO...)
-    {
-        self.init()
-        for other in others {
-            errors += other.errors
-        }
-    }
-
-    convenience public init(with others: NSError...)
-    {
-        self.init()
-        for other in others {
-            errors.append(other)
-        }
-    }
-
-    convenience required
-    public init(arrayLiteral errors: Element...) {
+//    convenience public init(others: ErrorIO...)
+//    {
+//        self.init()
+//        for other in others {
+//            errors += other.errors
+//        }
+//    }
+//
+//    convenience public init(errors: NSError...)
+//    {
+//        self.init()
+//        for other in errors {
+//            errors.append(other)
+//        }
+//    }
+//
+    convenience required public init(arrayLiteral errors: Element...) {
         self.init()
         extend(errors)
     }
@@ -112,8 +111,7 @@ public class ErrorIO: NSError
 
 extension ErrorIO: SequenceType
 {
-    public typealias Generator = GeneratorOf<Element>
-    public func generate() -> Generator
+    public func generate() -> GeneratorOf<Element>
     {
         var generator = errors.generate()
         return GeneratorOf { return generator.next() }
@@ -132,7 +130,7 @@ extension ErrorIO: CollectionType
     public var endIndex   : Index { return errors.endIndex }
 
     /** Retrieves the `NSError` at the specified `index`. */
-    public subscript(position:Index) -> Generator.Element {
+    public subscript(position:Index) -> Element {
         return errors[position]
     }
 }
@@ -164,13 +162,6 @@ extension ErrorIO: ExtensibleCollectionType
     }
 }
 
-
-//-
-// MARK: - Error: ArrayLiteralConvertible
-//__
-
-extension ErrorIO: ArrayLiteralConvertible {
-}
 
 
 

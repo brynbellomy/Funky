@@ -5,7 +5,8 @@ Pod::Spec.new do |s|
   s.summary = 'Functional programming tools and experiments (in Swift).  Lots of functions.'
   s.authors = { 'bryn austin bellomy' => 'bryn.bellomy@gmail.com' }
   s.license = { :type => 'WTFPL', :file => 'LICENSE.md' }
-  s.homepage = 'https://github.com/brynbellomy/Funky'
+  s.homepage = 'https://brynbellomy.github.io/Funky'
+  s.documentation_url = 'https://brynbellomy.github.io/Funky'
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'

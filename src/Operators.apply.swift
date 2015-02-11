@@ -17,8 +17,7 @@ infix operator <*> { associativity left precedence 101 }
 
 public func <*>
     <A, B>
-    (f: (A -> B)?, maybeValue: A?)
-    -> B?
+    (f: (A -> B)?, maybeValue: A?) -> B?
 {
     switch f
     {
@@ -30,8 +29,7 @@ public func <*>
 
 public func <*>
     <A, B>
-    (f: Result<A -> B>, values: Result<A>)
-    -> Result<B>
+    (f: Result<A -> B>, values: Result<A>) -> Result<B>
 {
     return f.flatMap { fn in values.flatMap(fn >>> success) }
 }
