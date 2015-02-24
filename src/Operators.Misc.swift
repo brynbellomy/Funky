@@ -40,23 +40,23 @@ public func =?? <T>(inout lhs:T?, maybeRhs: T?) {
 /**
     The set-if-non-failure operator.  Will only set `lhs` to `rhs` if `rhs` is not a `Result<T>.Failure`.
  */
-public func =?? <T>(inout lhs:T, result: Result<T>) {
-    lhs =?? result.value()
+public func =?? <T, E> (inout lhs:T, result: Result<T, E>) {
+    lhs =?? result.value
 }
 
 
 /**
     The set-if-non-failure operator.  Will only set `lhs` to `rhs` if `rhs` is not a `Result<T>.Failure`.
  */
-public func =?? <T>(inout lhs:T?, result: Result<T>) {
-    lhs =?? result.value()
+public func =?? <T, E> (inout lhs:T?, result: Result<T, E>) {
+    lhs =?? result.value
 }
 
 
 /**
     The initialize-if-nil operator.  Will only set `lhs` to `rhs` if `lhs` is nil.
  */
-public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T)
+public func ??= <T: Any> (inout lhs:T?, @autoclosure rhs: () -> T)
 {
     if lhs == nil {
         lhs = rhs()
@@ -67,7 +67,7 @@ public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T)
 /**
     The initialize-if-nil operator.  Will only set `lhs` to `rhs` if `lhs` is nil.
  */
-public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T?)
+public func ??= <T: Any> (inout lhs:T?, @autoclosure rhs: () -> T?)
 {
     if lhs == nil {
         lhs = rhs()
@@ -91,7 +91,8 @@ public func ??= <T : Any>(inout lhs:T?, @autoclosure rhs: () -> T?)
 /**
     Nil coalescing operator for `LlamaKit`'s `Result<T>` type.
  */
-public func ?± <T> (lhs: T?, @autoclosure rhs: () -> Result<T>) -> Result<T>
+public func ?± <T, E>
+    (lhs: T?, @autoclosure rhs: () -> Result<T, E>) -> Result<T, E>
 {
     if let lhs = lhs {
         return success(lhs)
@@ -101,7 +102,8 @@ public func ?± <T> (lhs: T?, @autoclosure rhs: () -> Result<T>) -> Result<T>
     }
 }
 
-public func ?± <T> (lhs: Result<T>, @autoclosure rhs: () -> Result<T>) -> Result<T>
+public func ?± <T, E>
+    (lhs: Result<T, E>, @autoclosure rhs: () -> Result<T, E>) -> Result<T, E>
 {
     switch lhs {
         case .Success: return lhs

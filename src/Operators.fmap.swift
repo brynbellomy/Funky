@@ -15,8 +15,7 @@ infix operator <^> { associativity left precedence 101 }
 
 public func <^>
     <A, B>
-    (f: A -> B, maybeValue: A?)
-    -> B?
+    (f: A -> B, maybeValue: A?) -> B?
 {
     switch maybeValue
     {
@@ -27,17 +26,15 @@ public func <^>
 
 public func <^>
     <A, B>
-    (f: A -> B, values: [A])
-    -> [B]
+    (f: A -> B, values: [A]) -> [B]
 {
     return map(values, f)
 }
 
 
 public func <^>
-    <A, B>
-    (f: A -> B, values: Result<A>)
-    -> Result<B>
+    <A, B, E>
+    (f: A -> B, values: Result<A, E>) -> Result<B, E>
 {
     return values.map(f)
 }

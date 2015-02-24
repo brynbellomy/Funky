@@ -41,7 +41,7 @@ public struct Regex
     private let nsRegex: NSRegularExpression
     
     
-    public static func create(pattern:String) -> Result<Regex>
+    public static func create(pattern:String) -> Result<Regex, ErrorIO>
     {
         var err: NSError?
         let regex = Regex(pattern: pattern, error: &err)

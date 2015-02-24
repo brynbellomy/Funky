@@ -211,15 +211,15 @@ public func all
 /**
     This function simply calls `result.isSuccess()` but is more convenient in functional pipelines.
  */
-public func isSuccess <T> (result:Result<T>) -> Bool {
-    return result.isSuccess()
+public func isSuccess <T, E> (result:Result<T, E>) -> Bool {
+    return result.isSuccess
 }
 
 
 /**
     This function simply calls `!result.isSuccess()` but is more convenient in functional pipelines.
  */
-public func isFailure <T> (result:Result<T>) -> Bool {
+public func isFailure <T, E> (result:Result<T, E>) -> Bool {
     return !isSuccess(result)
 }
 
@@ -227,16 +227,16 @@ public func isFailure <T> (result:Result<T>) -> Bool {
 /**
     This function simply calls `result.value()` but is more convenient in functional pipelines.
  */
-public func unwrapValue <T> (result: Result<T>) -> T? {
-    return result.value()
+public func unwrapValue <T, E> (result: Result<T, E>) -> T? {
+    return result.value
 }
 
 
 /**
     This function simply calls `result.error()` but is more convenient in functional pipelines.
  */
-public func unwrapError <T> (result: Result<T>) -> NSError? {
-    return result.error()
+public func unwrapError <T, E> (result: Result<T, E>) -> E? {
+    return result.error
 }
 
 
@@ -462,25 +462,25 @@ public func takeWhile
 }
 
 
-public func selectFailures <T>
-    (array:[Result<T>]) -> [NSError]
+public func selectFailures <T, E>
+    (array:[Result<T, E>]) -> [E]
 {
-    return array |> mapFilter { $0.error() }
+    return array |> mapFilter { $0.error }
 }
 
 
-public func rejectFailures <T>
-    (source: [Result<T>]) -> [T]
+public func rejectFailures <T, E>
+    (source: [Result<T, E>]) -> [T]
 {
-    return source |> rejectIf({ !$0.isSuccess() })
+    return source |> rejectIf({ !$0.isSuccess })
                   |> mapFilter(unwrapValue)
 }
 
 
-public func rejectFailuresAndDispose <T>
-    (disposal:NSError -> Void) (source: [Result<T>]) -> [T]
+public func rejectFailuresAndDispose <T, E>
+    (disposal:E -> Void) (source: [Result<T, E>]) -> [T]
 {
-    return source |> rejectIfAndDispose({ !isSuccess($0) })({ disposal($0.error()!) })
+    return source |> rejectIfAndDispose({ !isSuccess($0) })({ disposal($0.error!) })
                   |> mapFilter(unwrapValue)
 }
 
@@ -1125,7 +1125,7 @@ public func valueForKeypath <K: Hashable, V>
     the input `Dictionary` in this way; it does not modify `dict` in place.
  */
 public func setValueForKeypath
-    (var dict:[String: AnyObject], keypath:[String], value: AnyObject?) -> Result<[String: AnyObject]>
+    (var dict:[String: AnyObject], keypath:[String], value: AnyObject?) -> Result<[String: AnyObject], ErrorIO>
 {
     precondition(keypath.count > 0, "keypath.count must be > 0")
     

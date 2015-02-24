@@ -1,0 +1,5 @@
+[
+  "-project", "Funky.xcodeproj",
+  "-scheme", "Funky",
+  "-configuration", "Debug"
+]

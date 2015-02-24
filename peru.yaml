@@ -1,0 +1,7 @@
+imports:
+    LlamaKit: vendor/LlamaKit
+
+git module LlamaKit:
+    url: https://github.com/LlamaKit/LlamaKit
+    files: Result.swift                         # only copy these files. Can be a list of files. Accepts * and ** globs.
+    export: LlamaKit/                           # this sets the root of the submodule, i.e., these directories are erased from the path

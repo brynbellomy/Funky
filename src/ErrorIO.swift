@@ -51,6 +51,8 @@ public class ErrorIO: NSError, ArrayLiteralConvertible
 
     /** The errors contained by this `ErrorIO`. */
     public private(set) var errors = UnderlyingCollection()
+    
+    public var hasErrors: Bool { return errors.count > 0 }
 
     override public var localizedDescription: String {
         let localizedErrors = describe(errors) { formatError($0) |> indent }
@@ -102,6 +104,10 @@ public class ErrorIO: NSError, ArrayLiteralConvertible
     }
 
     required public init(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    public func asResult <T> () -> Result<T, ErrorIO> {
+        return Result<T, ErrorIO>.Failure(Box(self))
+    }
 }
 
 

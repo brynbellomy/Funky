@@ -200,7 +200,7 @@ public func rgbaFromHexCode(hex:String) -> (r:UInt32, g:UInt32, b:UInt32, a:UInt
         return nil
     }
 
-    let groupsRegex = Regex.create("([:xdigit:][:xdigit:])").value()!
+    let groupsRegex = Regex.create("([:xdigit:][:xdigit:])").value!
     let groups: [String] = groupsRegex.match(sanitized).generateCaptures() |> collect
     if groups.count < 3 {
         return nil
@@ -252,11 +252,6 @@ public func readHexInt (str:String) -> UInt32? {
  */
 public func rgbaFromRGBAString (string:String) -> (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat)?
 {
-    let regex = Regex.create("[^a-fA-F0-9]")
-    if let err = regex.error() {
-        return nil
-    }
-    
     let sanitized = (string =~ Regex("[^0-9,\\.]")) |> map‡ ("") 
     
     let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
