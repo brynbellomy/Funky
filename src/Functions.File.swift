@@ -55,21 +55,21 @@ public func relativePath(#from:String, #to:String) -> String
 {
     let fromParts = pathComponents(from)
     let toParts   = pathComponents(to)
-    
+
     let sharedParts = zipseq(fromParts, toParts)
                     |> takeWhile(==)
                     |> map‡ (takeLeft)
-    
+
     let relativeFromParts = Array(suffix(fromParts, Int.max))
     let relativeToParts   = Array(suffix(toParts,   Int.max))
-    
+
     var relativeParts: [String] = []
     for _ in relativeFromParts {
         relativeParts.append("..")
     }
-    
+
     relativeParts.extend(relativeToParts)
-    
+
     return relativeParts |> joinWith("\(kPathSeparator)")
 }
 

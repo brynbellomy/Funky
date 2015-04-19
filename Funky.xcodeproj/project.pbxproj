@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74091672CF647FC37291CB71 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921C8FDFB6B3D0A9466BE79F /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8FF6028D01B5068235D87676 /* Pods_FunkyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE724FE2100A75807057C847 /* Pods_FunkyTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C5062DB51A68C2F200F65B86 /* Funky.h in Headers */ = {isa = PBXBuildFile; fileRef = C5062DB41A68C2F200F65B86 /* Funky.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5062DBB1A68C2F200F65B86 /* Funky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5062DAF1A68C2F200F65B86 /* Funky.framework */; };
 		C5062DE11A68C3B600F65B86 /* Operators.apply.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD21A68C3B600F65B86 /* Operators.apply.swift */; };
@@ -15,7 +17,6 @@
 		C5062DE51A68C3B600F65B86 /* Operators.fmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD61A68C3B600F65B86 /* Operators.fmap.swift */; };
 		C5062DE61A68C3B600F65B86 /* Operators.Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD71A68C3B600F65B86 /* Operators.Misc.swift */; };
 		C5062DE71A68C3B600F65B86 /* Operators.pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD81A68C3B600F65B86 /* Operators.pipe.swift */; };
-		C51031461A8AD576006C0EBC /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57410831A8ABAE300068E22 /* Regex.swift */; };
 		C51031471A8AD576006C0EBC /* Functions.Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DCE1A68C3B600F65B86 /* Functions.Functional.swift */; };
 		C51031481A8AD576006C0EBC /* Functions.Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DCF1A68C3B600F65B86 /* Functions.Math.swift */; };
 		C51031491A8AD576006C0EBC /* Functions.Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD01A68C3B600F65B86 /* Functions.Strings.swift */; };
@@ -24,13 +25,10 @@
 		C5228D201A8B0C0D0054415D /* ErrorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DCC1A68C3B600F65B86 /* ErrorIO.swift */; };
 		C5228D211A8B0D3F0054415D /* Operators.ErrorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD51A68C3B600F65B86 /* Operators.ErrorIO.swift */; };
 		C5228D231A8B0EEF0054415D /* Functions.ErrorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DCD1A68C3B600F65B86 /* Functions.ErrorIO.swift */; };
-		C5E0E1391A9BE8240006E3F5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0E1381A9BE8240006E3F5 /* Result.swift */; };
-		C5E0E1441A9BE83B0006E3F5 /* LlamaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C5E0E1431A9BE83B0006E3F5 /* LlamaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C5E0E14A1A9BE83B0006E3F5 /* LlamaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */; };
-		C5E0E1511A9BE83B0006E3F5 /* LlamaKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0E1501A9BE83B0006E3F5 /* LlamaKitTests.swift */; };
-		C5E0E1581A9BE8470006E3F5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0E1381A9BE8240006E3F5 /* Result.swift */; };
-		C5EDD0C71A9C020200D140E4 /* LlamaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */; };
-		C5EDD0C81A9C021400D140E4 /* LlamaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */; };
+		C559A85C1AD27DA700FD7D96 /* ErrorIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DE91A68C3CA00F65B86 /* ErrorIOTests.swift */; };
+		C559A85D1AD27DA700FD7D96 /* Functions.FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DEA1A68C3CA00F65B86 /* Functions.FunctionalTests.swift */; };
+		C559A85E1AD27DA700FD7D96 /* RegexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */; };
+		C559A85F1AD27DA700FD7D96 /* FunkyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DC11A68C2F200F65B86 /* FunkyTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,23 +39,12 @@
 			remoteGlobalIDString = C5062DAE1A68C2F200F65B86;
 			remoteInfo = Funky;
 		};
-		C5E0E14B1A9BE83B0006E3F5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C5062DA61A68C2F200F65B86 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C5E0E13E1A9BE83B0006E3F5;
-			remoteInfo = LlamaKit;
-		};
-		C5E0E1591A9BE8600006E3F5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C5062DA61A68C2F200F65B86 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C5E0E13E1A9BE83B0006E3F5;
-			remoteInfo = LlamaKit;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22222CE11A14FF93857E216F /* Pods-FunkyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunkyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		282CFD57173D16E8BCA07041 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6029B5879E24ADC88A94170F /* Pods-FunkyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunkyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests.release.xcconfig"; sourceTree = "<group>"; };
 		921C8FDFB6B3D0A9466BE79F /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE724FE2100A75807057C847 /* Pods_FunkyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunkyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5062DAF1A68C2F200F65B86 /* Funky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Funky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,13 +71,7 @@
 		C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexTests.swift; sourceTree = "<group>"; };
 		C57410831A8ABAE300068E22 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		C57F4BD91A889F470027D56A /* Functions.File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.File.swift; sourceTree = "<group>"; };
-		C5E0E1381A9BE8240006E3F5 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LlamaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5E0E1421A9BE83B0006E3F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5E0E1431A9BE83B0006E3F5 /* LlamaKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LlamaKit.h; sourceTree = "<group>"; };
-		C5E0E1491A9BE83B0006E3F5 /* LlamaKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LlamaKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5E0E14F1A9BE83B0006E3F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5E0E1501A9BE83B0006E3F5 /* LlamaKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaKitTests.swift; sourceTree = "<group>"; };
+		DD7F932855452CA55408572D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5EDD0C71A9C020200D140E4 /* LlamaKit.framework in Frameworks */,
+				74091672CF647FC37291CB71 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,40 +87,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5EDD0C81A9C021400D140E4 /* LlamaKit.framework in Frameworks */,
 				C5062DBB1A68C2F200F65B86 /* Funky.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5E0E13B1A9BE83B0006E3F5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5E0E1461A9BE83B0006E3F5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5E0E14A1A9BE83B0006E3F5 /* LlamaKit.framework in Frameworks */,
+				8FF6028D01B5068235D87676 /* Pods_FunkyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C1BF3842A2DA4919819B9096 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				282CFD57173D16E8BCA07041 /* Pods.debug.xcconfig */,
+				DD7F932855452CA55408572D /* Pods.release.xcconfig */,
+				22222CE11A14FF93857E216F /* Pods-FunkyTests.debug.xcconfig */,
+				6029B5879E24ADC88A94170F /* Pods-FunkyTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C5062DA51A68C2F200F65B86 = {
 			isa = PBXGroup;
 			children = (
-				C5E0E1361A9BE8240006E3F5 /* vendor */,
 				C5062DCB1A68C3B600F65B86 /* src */,
 				C5062DB11A68C2F200F65B86 /* Funky */,
 				C5062DBE1A68C2F200F65B86 /* FunkyTests */,
-				C5E0E1401A9BE83B0006E3F5 /* LlamaKit */,
-				C5E0E14D1A9BE83B0006E3F5 /* LlamaKitTests */,
 				C5062DB01A68C2F200F65B86 /* Products */,
 				E7688BC5929B83EDF077F36E /* Frameworks */,
+				C1BF3842A2DA4919819B9096 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,8 +123,6 @@
 			children = (
 				C5062DAF1A68C2F200F65B86 /* Funky.framework */,
 				C5062DBA1A68C2F200F65B86 /* FunkyTests.xctest */,
-				C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */,
-				C5E0E1491A9BE83B0006E3F5 /* LlamaKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -213,56 +186,6 @@
 			path = src;
 			sourceTree = SOURCE_ROOT;
 		};
-		C5E0E1361A9BE8240006E3F5 /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E1371A9BE8240006E3F5 /* LlamaKit */,
-			);
-			path = vendor;
-			sourceTree = "<group>";
-		};
-		C5E0E1371A9BE8240006E3F5 /* LlamaKit */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E1381A9BE8240006E3F5 /* Result.swift */,
-			);
-			path = LlamaKit;
-			sourceTree = "<group>";
-		};
-		C5E0E1401A9BE83B0006E3F5 /* LlamaKit */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E1431A9BE83B0006E3F5 /* LlamaKit.h */,
-				C5E0E1411A9BE83B0006E3F5 /* Supporting Files */,
-			);
-			path = LlamaKit;
-			sourceTree = "<group>";
-		};
-		C5E0E1411A9BE83B0006E3F5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E1421A9BE83B0006E3F5 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C5E0E14D1A9BE83B0006E3F5 /* LlamaKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E1501A9BE83B0006E3F5 /* LlamaKitTests.swift */,
-				C5E0E14E1A9BE83B0006E3F5 /* Supporting Files */,
-			);
-			path = LlamaKitTests;
-			sourceTree = "<group>";
-		};
-		C5E0E14E1A9BE83B0006E3F5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C5E0E14F1A9BE83B0006E3F5 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		E7688BC5929B83EDF077F36E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,14 +206,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5E0E13C1A9BE83B0006E3F5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5E0E1441A9BE83B0006E3F5 /* LlamaKit.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -298,15 +213,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5062DC51A68C2F200F65B86 /* Build configuration list for PBXNativeTarget "Funky" */;
 			buildPhases = (
+				CF3A9C0767D24FBD465E7175 /* Check Pods Manifest.lock */,
 				C5062DAA1A68C2F200F65B86 /* Sources */,
 				C5062DAB1A68C2F200F65B86 /* Frameworks */,
 				C5062DAC1A68C2F200F65B86 /* Headers */,
 				C5062DAD1A68C2F200F65B86 /* Resources */,
+				6FF34ABE53E0B3101A61E05D /* Embed Pods Frameworks */,
+				00B25B5CB83661B746811D30 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C5E0E15A1A9BE8600006E3F5 /* PBXTargetDependency */,
 			);
 			name = Funky;
 			productName = Funky;
@@ -317,9 +234,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5062DC81A68C2F200F65B86 /* Build configuration list for PBXNativeTarget "FunkyTests" */;
 			buildPhases = (
+				28483455BCB4DE9501C19E91 /* Check Pods Manifest.lock */,
 				C5062DB61A68C2F200F65B86 /* Sources */,
 				C5062DB71A68C2F200F65B86 /* Frameworks */,
 				C5062DB81A68C2F200F65B86 /* Resources */,
+				306336BFD4F7297740ABEEB4 /* Embed Pods Frameworks */,
+				7AA83B374274F6AE88FBDDA4 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -331,49 +251,13 @@
 			productReference = C5062DBA1A68C2F200F65B86 /* FunkyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C5E0E13E1A9BE83B0006E3F5 /* LlamaKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C5E0E1521A9BE83B0006E3F5 /* Build configuration list for PBXNativeTarget "LlamaKit" */;
-			buildPhases = (
-				C5E0E13A1A9BE83B0006E3F5 /* Sources */,
-				C5E0E13B1A9BE83B0006E3F5 /* Frameworks */,
-				C5E0E13C1A9BE83B0006E3F5 /* Headers */,
-				C5E0E13D1A9BE83B0006E3F5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LlamaKit;
-			productName = LlamaKit;
-			productReference = C5E0E13F1A9BE83B0006E3F5 /* LlamaKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		C5E0E1481A9BE83B0006E3F5 /* LlamaKitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C5E0E1551A9BE83B0006E3F5 /* Build configuration list for PBXNativeTarget "LlamaKitTests" */;
-			buildPhases = (
-				C5E0E1451A9BE83B0006E3F5 /* Sources */,
-				C5E0E1461A9BE83B0006E3F5 /* Frameworks */,
-				C5E0E1471A9BE83B0006E3F5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C5E0E14C1A9BE83B0006E3F5 /* PBXTargetDependency */,
-			);
-			name = LlamaKitTests;
-			productName = LlamaKitTests;
-			productReference = C5E0E1491A9BE83B0006E3F5 /* LlamaKitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C5062DA61A68C2F200F65B86 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "bryn austin bellomy";
 				TargetAttributes = {
 					C5062DAE1A68C2F200F65B86 = {
@@ -381,12 +265,6 @@
 					};
 					C5062DB91A68C2F200F65B86 = {
 						CreatedOnToolsVersion = 6.2;
-					};
-					C5E0E13E1A9BE83B0006E3F5 = {
-						CreatedOnToolsVersion = 6.3;
-					};
-					C5E0E1481A9BE83B0006E3F5 = {
-						CreatedOnToolsVersion = 6.3;
 					};
 				};
 			};
@@ -404,8 +282,6 @@
 			targets = (
 				C5062DAE1A68C2F200F65B86 /* Funky */,
 				C5062DB91A68C2F200F65B86 /* FunkyTests */,
-				C5E0E13E1A9BE83B0006E3F5 /* LlamaKit */,
-				C5E0E1481A9BE83B0006E3F5 /* LlamaKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -425,21 +301,100 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5E0E13D1A9BE83B0006E3F5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5E0E1471A9BE83B0006E3F5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00B25B5CB83661B746811D30 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		28483455BCB4DE9501C19E91 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		306336BFD4F7297740ABEEB4 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FF34ABE53E0B3101A61E05D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7AA83B374274F6AE88FBDDA4 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF3A9C0767D24FBD465E7175 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C5062DAA1A68C2F200F65B86 /* Sources */ = {
@@ -447,12 +402,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5228D231A8B0EEF0054415D /* Functions.ErrorIO.swift in Sources */,
-				C51031461A8AD576006C0EBC /* Regex.swift in Sources */,
 				C51031471A8AD576006C0EBC /* Functions.Functional.swift in Sources */,
 				C51031481A8AD576006C0EBC /* Functions.Math.swift in Sources */,
 				C5228D211A8B0D3F0054415D /* Operators.ErrorIO.swift in Sources */,
 				C5228D201A8B0C0D0054415D /* ErrorIO.swift in Sources */,
-				C5E0E1391A9BE8240006E3F5 /* Result.swift in Sources */,
 				C51031491A8AD576006C0EBC /* Functions.Strings.swift in Sources */,
 				C510314A1A8AD576006C0EBC /* Functions.File.swift in Sources */,
 				C510314B1A8AD576006C0EBC /* NSError+Coalescing.swift in Sources */,
@@ -469,22 +422,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5E0E13A1A9BE83B0006E3F5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5E0E1581A9BE8470006E3F5 /* Result.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5E0E1451A9BE83B0006E3F5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5E0E1511A9BE83B0006E3F5 /* LlamaKitTests.swift in Sources */,
+				C559A85C1AD27DA700FD7D96 /* ErrorIOTests.swift in Sources */,
+				C559A85E1AD27DA700FD7D96 /* RegexTests.swift in Sources */,
+				C559A85D1AD27DA700FD7D96 /* Functions.FunctionalTests.swift in Sources */,
+				C559A85F1AD27DA700FD7D96 /* FunkyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,16 +436,6 @@
 			isa = PBXTargetDependency;
 			target = C5062DAE1A68C2F200F65B86 /* Funky */;
 			targetProxy = C5062DBC1A68C2F200F65B86 /* PBXContainerItemProxy */;
-		};
-		C5E0E14C1A9BE83B0006E3F5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C5E0E13E1A9BE83B0006E3F5 /* LlamaKit */;
-			targetProxy = C5E0E14B1A9BE83B0006E3F5 /* PBXContainerItemProxy */;
-		};
-		C5E0E15A1A9BE8600006E3F5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C5E0E13E1A9BE83B0006E3F5 /* LlamaKit */;
-			targetProxy = C5E0E1591A9BE8600006E3F5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -592,6 +523,7 @@
 		};
 		C5062DC61A68C2F200F65B86 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282CFD57173D16E8BCA07041 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -609,6 +541,7 @@
 		};
 		C5062DC71A68C2F200F65B86 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD7F932855452CA55408572D /* Pods.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -626,6 +559,7 @@
 		};
 		C5062DC91A68C2F200F65B86 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 22222CE11A14FF93857E216F /* Pods-FunkyTests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -644,6 +578,7 @@
 		};
 		C5062DCA1A68C2F200F65B86 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6029B5879E24ADC88A94170F /* Pods-FunkyTests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -651,78 +586,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = FunkyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		C5E0E1531A9BE83B0006E3F5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LlamaKit/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		C5E0E1541A9BE83B0006E3F5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = LlamaKit/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		C5E0E1561A9BE83B0006E3F5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LlamaKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		C5E0E1571A9BE83B0006E3F5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LlamaKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -754,24 +617,6 @@
 			buildConfigurations = (
 				C5062DC91A68C2F200F65B86 /* Debug */,
 				C5062DCA1A68C2F200F65B86 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C5E0E1521A9BE83B0006E3F5 /* Build configuration list for PBXNativeTarget "LlamaKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C5E0E1531A9BE83B0006E3F5 /* Debug */,
-				C5E0E1541A9BE83B0006E3F5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C5E0E1551A9BE83B0006E3F5 /* Build configuration list for PBXNativeTarget "LlamaKitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C5E0E1561A9BE83B0006E3F5 /* Debug */,
-				C5E0E1571A9BE83B0006E3F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

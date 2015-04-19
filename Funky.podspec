@@ -11,9 +11,11 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
   s.source_files = 'src/*.swift', 'src/**/*.swift'
+  s.exclude_files = 'src/Regex.swift'
   s.requires_arc = true
 
-  s.dependency 'LlamaKit', '0.1.1'
+  s.dependency 'LlamaKit', '0.6.0'
+  s.dependency 'Regex', '0.1.0'
 
   s.source = { :git => 'https://github.com/brynbellomy/Funky.git', :tag => s.version }
 end

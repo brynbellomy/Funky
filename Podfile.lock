@@ -1,12 +1,15 @@
 PODS:
-  - LlamaKit (0.1.1)
-  - Nimble (0.3.0)
-  - Quick (0.2.2)
+  - LlamaKit (0.6.0)
+  - Nimble (0.4.2)
+  - Quick (0.3.1)
+  - Regex (0.0.1):
+    - LlamaKit (= 0.6.0)
 
 DEPENDENCIES:
-  - LlamaKit (~> 0.1.x)
+  - LlamaKit (~> 0.6.x)
   - Nimble (from `https://github.com/Quick/Nimble.git`, branch `master`)
   - Quick (from `https://github.com/Quick/Quick.git`, branch `master`)
+  - Regex (from `~/projects/_swift/Regex`)
 
 EXTERNAL SOURCES:
   Nimble:
@@ -15,18 +18,21 @@ EXTERNAL SOURCES:
   Quick:
     :branch: master
     :git: https://github.com/Quick/Quick.git
+  Regex:
+    :path: "~/projects/_swift/Regex"
 
 CHECKOUT OPTIONS:
   Nimble:
-    :commit: 406466a5588fd5060c4fdbc7c088e25b782a442f
+    :commit: 8927113f877f32c8a01b41b746c4ac261b42c48e
     :git: https://github.com/Quick/Nimble.git
   Quick:
-    :commit: e612b4cc21076a20764b1ef6c4ac51f14cf34c92
+    :commit: 8bf96f708924d728dab5f0cf7543b6f1b896a209
     :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
-  LlamaKit: 25f47a933b6580a6fc159d95adb2e2953c7012e9
-  Nimble: 55fef248ef3703024ce431db817160ad24d89ba3
-  Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
+  LlamaKit: 86cea401172a666a16c6b5f033a256c803b3b116
+  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
+  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
+  Regex: 21936b532eb5251ba8e46a6dbcc42b6ac77789ad
 
-COCOAPODS: 0.36.0.beta.2
+COCOAPODS: 0.36.3

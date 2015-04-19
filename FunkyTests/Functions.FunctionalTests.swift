@@ -17,10 +17,10 @@ class FunctionsFunctionalTests: QuickSpec
 {
     override func spec()
     {
-        describe("collect()") {
+        describe("toCollection()") {
             it("should collect the elements of a finite sequence into a collection in the order that they were generated") {
                 let seq = SequenceOf([5, 4, 3, 2, 1])
-                let collected = collect(seq) as [Int]
+                let collected: [Int] = seq |> toCollection
                 expect(collected) == [5, 4, 3, 2, 1]
             }
         }
@@ -40,9 +40,19 @@ class FunctionsFunctionalTests: QuickSpec
                 let two = SequenceOf([20, 40, 60, 80])
                 let zipped = zipseq(one, two)
                 let expected = [(2, 20), (4, 40), (6, 60), (8, 80)]
-                let areEqual = equal(zipped, expected, equal)
+                let areEqual = equalSequences(zipped |> toArray, expected, equalTuples)
                 expect(areEqual) == true
 
+            }
+        }
+        
+        describe("take(Int)(SequenceType)") {
+            it("should take n elements of the provided sequence, even if the sequence is infinite") {
+                var gen = GeneratorOf { "xyzzy" }
+                let arr = GeneratorSequence(gen) |> take(5)
+                expect(arr.count) == 5
+                expect(arr[0]) == "xyzzy"
+                expect(arr[4]) == "xyzzy"
             }
         }
         
@@ -58,10 +68,10 @@ class FunctionsFunctionalTests: QuickSpec
                 
                 let maybeChanged = setValueForKeypath(dict, ["an object", "two"], Int(5432))
                 
-                expect(maybeChanged.isSuccess()).to(beTrue())
-                expect(maybeChanged.value()).toNot(beNil())
+                expect(maybeChanged.isSuccess).to(beTrue())
+                expect(maybeChanged.value).toNot(beNil())
                 
-                let changed = maybeChanged.value()!
+                let changed = maybeChanged.value!
                 if let anObject = changed["an object"] as? [String: AnyObject]
                 {
                     if let value = anObject["two"] as? Int {

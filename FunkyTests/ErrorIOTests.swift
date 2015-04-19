@@ -25,26 +25,7 @@ class ErrorIOTests: QuickSpec
                 }
             }
 
-//            describe("initialized with an array of NSErrors") {
-//                let err = ErrorIO(with:NSError(), NSError())
-//
-//                it("should add the errors to errors") {
-//                    expect(err.errors.count) == 2
-//                }
-//            }
-//
-//            describe("initialized with an array of ErrorIOs") {
-//                let err1 = ErrorIO(with:NSError(), NSError())
-//                let err2 = ErrorIO(with:NSError())
-//
-//                let err = ErrorIO(flatten:err1, err2)
-//
-//                it("should add the errors of each ErrorIO to errors") {
-//                    expect(err.errors.count) == 3
-//                }
-//            }
-
-
+            
             describe("initialized with an array literal of NSErrors") {
                 let err: ErrorIO = [ NSError(), NSError() ]
 
@@ -58,6 +39,16 @@ class ErrorIOTests: QuickSpec
                 var err = ErrorIO()
                 err <~ NSError()
                 err <~ NSError()
+
+                it("should add them to errors") {
+                    expect(err.errors.count) == 2
+                }
+            }
+            
+            describe("when individual Strings are added to it with the <~ operator") {
+                var err = ErrorIO()
+                err <~ "some error"
+                err <~ "some other error"
 
                 it("should add them to errors") {
                     expect(err.errors.count) == 2

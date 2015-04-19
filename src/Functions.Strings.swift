@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Regex
 
 
 //
@@ -40,15 +41,33 @@ public func dumpString<T>(value:T) -> String {
 
 
 /**
-    Pads a string to the given length with the given padding string.
+    Pads the end of a string to the given length with the given padding string.
 
     :param: string The input string to pad.
     :param: length The length to which the string should be padded.
     :param: padding The string to use as padding.
     :returns: The padded `String`.
  */
-public func pad(string:String, length:Int, #padding:String) -> String {
+public func pad (string:String, length:Int, #padding:String) -> String {
     return string.stringByPaddingToLength(length, withString:padding, startingAtIndex:0)
+}
+
+/**
+    Pads the beginning of a string to the given length with the given padding string.
+
+    :param: string The input string to pad.
+    :param: length The length to which the string should be padded.
+    :param: padding The string to use as padding.
+    :returns: The padded `String`.
+ */
+public func padFront (string:String, length:Int, #padding:String) -> String
+{
+    let disparity = length - count(string)
+    if disparity <= 0 {
+        return string
+    }
+    let padding = Array(count: disparity, repeatedValue: Character(padding))
+    return String(padding) + string
 }
 
 
@@ -59,7 +78,7 @@ public func pad(string:String, length:Int, #padding:String) -> String {
     :param: length The length to which the string should be padded.
     :returns: The padded `String`.
  */
-public func pad(string:String, length:Int) -> String {
+public func pad (string:String, length:Int) -> String {
     return string.stringByPaddingToLength(length, withString:" ", startingAtIndex:0)
 }
 
@@ -185,6 +204,12 @@ public func trim(str:String) -> String {
     return str.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 }
 
+public func trimToLength (string:String, length:Int) -> String {
+    return count(string) <= length
+                ? string
+                : (string |> substringToIndex(length))
+}
+
 
 /**
     Generates an rgba tuple from a hex color string.
@@ -193,15 +218,14 @@ public func trim(str:String) -> String {
  */
 public func rgbaFromHexCode(hex:String) -> (r:UInt32, g:UInt32, b:UInt32, a:UInt32)?
 {
-    let sanitized = (hex =~ Regex("[^a-fA-F0-9]")) |> map‡ ("") 
+    let sanitized = hex.replaceRegex("[^a-fA-F0-9]", with: "")
     
     let strLen = count(sanitized)
     if strLen != 6 && strLen != 8 {
         return nil
     }
 
-    let groupsRegex = Regex.create("([:xdigit:][:xdigit:])").value!
-    let groups: [String] = groupsRegex.match(sanitized).generateCaptures() |> collect
+    let groups: [String] = (sanitized =~ Regex("([:xdigit:][:xdigit:])")).captures |> toArray
     if groups.count < 3 {
         return nil
     }
@@ -254,12 +278,13 @@ public func rgbaFromRGBAString (string:String) -> (r:CGFloat, g:CGFloat, b:CGFlo
 {
     let sanitized = (string =~ Regex("[^0-9,\\.]")) |> map‡ ("") 
     
-    let parts: [String] = sanitized |> splitOn(",") |> map‡ (trim)
+    let parts: [CGFloat?] = sanitized |> splitOn(",")
+                                      |> map‡ (trim)
+                                      |> map‡ { $0.toCGFloat() }
     if parts.count != 4 {
         return nil
     }
-
-    if let (red, green, blue, alpha) = all(parts[0].toCGFloat(), parts[1].toCGFloat(), parts[2].toCGFloat(), parts[3].toCGFloat()) {
+    else if let (red, green, blue, alpha) = all(parts[0], parts[1], parts[2], parts[3]) {
         return (r:red, g:green, b:blue, a:alpha)
     }
 

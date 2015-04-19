@@ -16,12 +16,12 @@ class FunkyTests: XCTestCase
     func testExample()
     {
         var funcWasCalled = false
-        func missingValueError(value:String) -> Result<Int> {
+        func missingValueError(value:String) -> Result<Int, ErrorIO> {
             funcWasCalled = true
             return failure("missing value '\(value)'")
         }
 
-        let result: Result<Int> = success(123) //failure("some failure")
+        let result: Result<Int, NSError> = success(123) //failure("some failure")
 
         let asdf = result ?± failure("different failure")
 
@@ -29,7 +29,7 @@ class FunkyTests: XCTestCase
 //            XCTAssert(desc == "some failure", "failure message was '\(desc)'")
 //        }
 
-        XCTAssert(asdf.value() == 123, "value was \(asdf.value())")
+        XCTAssert(asdf.value! == 123, "value was \(asdf.value)")
         XCTAssert(funcWasCalled == false, "function was called")
     }
 
