@@ -11,6 +11,16 @@ import LlamaKit
 // @@TODO: move these homeless funcs
 
 /**
+    Simple wrapper for `dispatch_after` that simplifies the most common use case (i.e., dispatch this block after X number of seconds).
+ */
+public func after (#seconds:NSTimeInterval, onQueue queue:dispatch_queue_t, execute block:dispatch_block_t)
+{
+    let time = dispatch_time(DISPATCH_TIME_NOW as dispatch_time_t, Int64(UInt64(seconds) * NSEC_PER_SEC))
+    dispatch_after(time, queue, block)
+}
+
+
+/**
     Randomly chooses a date in between `startDate` and `endDate` and returns it.
  */
 public func randomDate (between startDate:NSDate, and endDate:NSDate) -> NSDate {
@@ -36,6 +46,13 @@ public func chooseRandomly <T> (arr:[T]) -> T {
  */
 public func id <T> (arg:T) -> T {
     return arg
+}
+
+/**
+    Returns a function that always returns `arg`, regardless of what argument is passed into it.
+ */
+public func constant <T, U> (arg:T) -> (U -> T) {
+    return { (ignored:U) -> T in arg }
 }
 
 
@@ -81,15 +98,25 @@ public func tail
 
 
 /**
-    Wraps the given `collection` in a type-erased sequence.
+    Simple syntax sugar for the `SequenceOf` constructor, because constructors can't be
+    curried (yet).  Wraps the given `collection` in a type-erased sequence.
  */
 public func toSequence <C: CollectionType>
     (collection: C) -> SequenceOf<C.Generator.Element> {
     return SequenceOf(collection)
 }
 
+
 /**
-    Wraps the given `generator` in a type-erased sequence.
+    Simple syntax sugar for the `GeneratorSequence` constructor, because constructors
+    can't be curried (yet). Wraps the given `generator` in a type-erased sequence.
+
+    For example:
+
+        for x in someGenerator |> toSequence {
+             // ...
+        }
+
  */
 public func toSequence <G: GeneratorType>
     (generator: G) -> GeneratorSequence<G> {
@@ -99,8 +126,13 @@ public func toSequence <G: GeneratorType>
 
 /**
     Collects a sequence (`SequenceType`) into a collection (`ExtensibleCollectionType`).  The
-    specific type of the returned collection must be stated explicitly.  For example:
-    `let array: [String] = stringSequence |> toCollection`
+    specific type of collection you want returned must be made obvious to the type-checker.
+
+    For example:
+    
+        let seq: SequenceOf<User> = ...
+        let array: [User] = seq |> toCollection
+
  */
 public func toCollection
     <S: SequenceType, D: ExtensibleCollectionType where S.Generator.Element == D.Generator.Element>
@@ -752,9 +784,16 @@ public func curry <A, B, C, R>
 
 /**
     Curries a binary function and swaps the placement of the arguments.  Useful for
-    bringing the Swift built-in collection functions into functional pipelines.  For
-    example: `someArray |> currySwap(map)({ $0 ... })`.  See also the `‡` operator,
-    which is equivalent and more concise (i.e., `someArray |> map‡ { $0 ... })`).
+    bringing the Swift built-in collection functions into functional pipelines.
+
+    For example:
+
+        someArray |> currySwap(map)({ $0 ... })
+
+    See also the `‡` operator, which is equivalent and more concise:
+
+        someArray |> map‡ { $0 ... })
+
  */
 public func currySwap
     <T, U, V>
@@ -928,21 +967,25 @@ public func selectWhere <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K:
 }
 
 
-/**
-    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:
-
-    `let descriptions = someCollection |> mapr { $0.description }`
-
-    :param: transform The transformation function to apply to each incoming element.
-    :param: source The collection to transform.
-    :returns: The transformed collection.
- */
-public func mapr
-    <S: SequenceType, T>
-    (transform: S.Generator.Element -> T) (source: S) -> [T]
-{
-    return map(source, transform)
-}
+///**
+//    A curried, argument-reversed version of `map` for use in functional pipelines.  For example:
+//
+//        let descriptions = someCollection |> mapr { $0.description }
+//
+//    This is equivalent to using the `‡` operator and Swift's built-in `map`:
+//
+//        let descriptions = someCollection |> map‡ { $0.description }
+//
+//    :param: transform The transformation function to apply to each incoming element.
+//    :param: source The collection to transform.
+//    :returns: The transformed collection.
+// */
+//public func mapr
+//    <S: SequenceType, T>
+//    (transform: S.Generator.Element -> T) (source: S) -> [T]
+//{
+//    return map(source, transform)
+//}
 
 
 /**
@@ -950,7 +993,8 @@ public func mapr
     of returning the resulting mapped collection as any `ExtensibleCollectionType`.  The return type
     must therefore always be explicitly specified.  For example:
 
-    `let descriptions: [String] = someCollection |> mapr { $0.description }`
+        let descriptions: [String] =
+            someCollection |> mapr { $0.description }
 
     :param: transform The transformation function to apply to each incoming element.
     :param: source The collection to transform.
@@ -1238,7 +1282,9 @@ public func findWhere
     (domain: C, predicate: (C.Generator.Element) -> Bool) -> C.Index?
 {
     var maybeIndex: C.Index? = domain.startIndex
-    do
+    var numElementsRemaining = count(domain).toIntMax()
+    
+    while maybeIndex != nil && numElementsRemaining > 0
     {
         if let index = maybeIndex
         {
@@ -1249,8 +1295,8 @@ public func findWhere
 
             maybeIndex = index.successor()
         }
-
-    } while maybeIndex != nil
+        numElementsRemaining--
+    }
 
     return nil
 }
