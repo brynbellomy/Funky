@@ -1,14 +1,12 @@
 PODS:
-  - LlamaKit (0.6.0)
   - Nimble (0.4.2)
   - Quick (0.3.1)
   - Regex (0.1.0)
 
 DEPENDENCIES:
-  - LlamaKit (~> 0.6.x)
   - Nimble (from `https://github.com/Quick/Nimble.git`, branch `master`)
   - Quick (from `https://github.com/Quick/Quick.git`, branch `master`)
-  - Regex (from `~/projects/_swift/Regex`)
+  - Regex (~> 0.1.x)
 
 EXTERNAL SOURCES:
   Nimble:
@@ -17,8 +15,6 @@ EXTERNAL SOURCES:
   Quick:
     :branch: master
     :git: https://github.com/Quick/Quick.git
-  Regex:
-    :path: "~/projects/_swift/Regex"
 
 CHECKOUT OPTIONS:
   Nimble:
@@ -29,7 +25,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
-  LlamaKit: dbb01a9e77a78c9f4c1a1c9fef6f2bcf04c38c42
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Regex: 7eb28abf34ed5718a34baa474892b0ddc4efb384

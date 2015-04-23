@@ -8,7 +8,6 @@
 
 import Cocoa
 import XCTest
-import LlamaKit
 import Funky
 
 class FunkyTests: XCTestCase

@@ -48,10 +48,8 @@ code_sign() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework 'LlamaKit.framework'
   install_framework 'Regex.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework 'LlamaKit.framework'
   install_framework 'Regex.framework'
 fi
