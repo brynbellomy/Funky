@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 bryn austin bellomy. All rights reserved.
 //
 
-import LlamaKit
 
 
 infix operator =?? { associativity left precedence 99 }
@@ -89,7 +88,7 @@ public func ??= <T: Any> (inout lhs:T?, @autoclosure rhs: () -> T?)
 
 
 /**
-    Nil coalescing operator for `LlamaKit`'s `Result<T>` type.
+    Nil coalescing operator for `Result<T, E>`.
  */
 public func ?± <T, E>
     (lhs: T?, @autoclosure rhs: () -> Result<T, E>) -> Result<T, E>

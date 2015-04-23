@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import LlamaKit
 
 private func formatError(error:NSError) -> String
 {
@@ -36,22 +35,22 @@ public class ErrorIO: NSError, ArrayLiteralConvertible
         public static let FileKey = "__file__"
         public static let LineKey = "__line__"
     }
-    
+
     /** The default error domain for `ErrorIO` objects. */
     public class var defaultDomain: String { return "com.illumntr.ErrorIO" }
-    
+
     /** The default error code for `ErrorIO` objects. */
     public class var defaultCode: Int { return 1 }
 
     /** The `Element` of `ErrorIO` when considered as a sequence/collection. */
     public typealias Element = NSError
-    
+
     /** The type of the underlying collection that holds the `NSError`s contained by this `ErrorIO`. */
     public typealias UnderlyingCollection = [Element]
 
     /** The errors contained by this `ErrorIO`. */
     public private(set) var errors = UnderlyingCollection()
-    
+
     public var hasErrors: Bool { return errors.count > 0 }
 
     override public var localizedDescription: String {
@@ -104,7 +103,7 @@ public class ErrorIO: NSError, ArrayLiteralConvertible
     }
 
     required public init(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    
+
     public func asResult <T> () -> Result<T, ErrorIO> {
         return Result<T, ErrorIO>.Failure(Box(self))
     }

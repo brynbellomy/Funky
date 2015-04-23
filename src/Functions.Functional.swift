@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 bryn austin bellomy. All rights reserved.
 //
 
-import LlamaKit
 
 // @@TODO: move these homeless funcs
 
@@ -129,7 +128,7 @@ public func toSequence <G: GeneratorType>
     specific type of collection you want returned must be made obvious to the type-checker.
 
     For example:
-    
+
         let seq: SequenceOf<User> = ...
         let array: [User] = seq |> toCollection
 
@@ -1283,7 +1282,7 @@ public func findWhere
 {
     var maybeIndex: C.Index? = domain.startIndex
     var numElementsRemaining = count(domain).toIntMax()
-    
+
     while maybeIndex != nil && numElementsRemaining > 0
     {
         if let index = maybeIndex
