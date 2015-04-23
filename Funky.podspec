@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = 'Funky'
   s.version = '0.2.2'
-  s.license = 'WTFPL'
+  s.license = 'MIT'
   s.summary = 'Functional programming tools and experiments (in Swift).  Lots of functions.'
   s.authors = { 'bryn austin bellomy' => 'bryn.bellomy@gmail.com' }
   s.license = { :type => 'MIT', :file => 'LICENSE.md' }

@@ -1,5 +1,5 @@
 [
-  "-project", "Funky.xcodeproj",
+  "-workspace", "Funky.xcworkspace",
   "-scheme", "Funky",
   "-configuration", "Debug"
 ]
