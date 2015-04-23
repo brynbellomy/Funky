@@ -49,7 +49,7 @@ class FunctionsFunctionalTests: QuickSpec
         describe("take(Int)(SequenceType)") {
             it("should take n elements of the provided sequence, even if the sequence is infinite") {
                 var gen = GeneratorOf { "xyzzy" }
-                let arr = GeneratorSequence(gen) |> take(5)
+                let arr = GeneratorSequence(gen) |> take(5) |> toArray
                 expect(arr.count) == 5
                 expect(arr[0]) == "xyzzy"
                 expect(arr[4]) == "xyzzy"
