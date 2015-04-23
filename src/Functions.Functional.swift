@@ -657,7 +657,7 @@ public func takeWhileGenerator <S: SequenceType>
     return GeneratorOf<S.Generator.Element> {
         if let next = gen.next() {
             if !endConditionMet {
-                endConditionMet = predicate(next)
+                endConditionMet = !predicate(next)
             }
 
             return endConditionMet ? nil : next
