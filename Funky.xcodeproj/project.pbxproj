@@ -62,7 +62,6 @@
 		C5062DE91A68C3CA00F65B86 /* ErrorIOTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorIOTests.swift; sourceTree = "<group>"; };
 		C5062DEA1A68C3CA00F65B86 /* Functions.FunctionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.FunctionalTests.swift; sourceTree = "<group>"; };
 		C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexTests.swift; sourceTree = "<group>"; };
-		C57410831A8ABAE300068E22 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		C57F4BD91A889F470027D56A /* Functions.File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,7 +144,6 @@
 		C5062DCB1A68C3B600F65B86 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				C57410831A8ABAE300068E22 /* Regex.swift */,
 				C5062DCC1A68C3B600F65B86 /* ErrorIO.swift */,
 				C5062DCD1A68C3B600F65B86 /* Functions.ErrorIO.swift */,
 				C5062DCE1A68C3B600F65B86 /* Functions.Functional.swift */,
