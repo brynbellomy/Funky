@@ -9,6 +9,13 @@
 import Foundation
 import Regex
 
+public func safeText <T> (opt:Optional<T>) -> String {
+    switch opt {
+        case .Some(let val): return "\(val)"
+        case .None: return "(nil)"
+    }
+}
+
 
 //
 // MARK: - String functions

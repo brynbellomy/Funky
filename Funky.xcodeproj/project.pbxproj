@@ -30,6 +30,7 @@
 		C559A85F1AD27DA700FD7D96 /* FunkyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DC11A68C2F200F65B86 /* FunkyTests.swift */; };
 		C56A05011AE8F05E00FA9FD8 /* Functions.Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56A05001AE8F05E00FA9FD8 /* Functions.Result.swift */; };
 		C56A05031AE8F65400FA9FD8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56A05021AE8F65400FA9FD8 /* Result.swift */; };
+		C57978CD1B1FD09B00B4534F /* Functions.Lazy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57978CC1B1FD09B00B4534F /* Functions.Lazy.swift */; };
 		E7099FC19FBFAA8FBFFC0959 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC47DD3DF9D85AFF3B99FE0A /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		C5062DEB1A68C3CA00F65B86 /* RegexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexTests.swift; sourceTree = "<group>"; };
 		C56A05001AE8F05E00FA9FD8 /* Functions.Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.Result.swift; sourceTree = "<group>"; };
 		C56A05021AE8F65400FA9FD8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		C57978CC1B1FD09B00B4534F /* Functions.Lazy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.Lazy.swift; sourceTree = "<group>"; };
 		C57F4BD91A889F470027D56A /* Functions.File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.File.swift; sourceTree = "<group>"; };
 		D758B86AF2D15435E7262A18 /* Pods-FunkyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunkyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FunkyTests/Pods-FunkyTests.release.xcconfig"; sourceTree = "<group>"; };
 		EC47DD3DF9D85AFF3B99FE0A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 		C5062DCB1A68C3B600F65B86 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				C57978CC1B1FD09B00B4534F /* Functions.Lazy.swift */,
 				C56A05021AE8F65400FA9FD8 /* Result.swift */,
 				C56A05001AE8F05E00FA9FD8 /* Functions.Result.swift */,
 				C5062DCC1A68C3B600F65B86 /* ErrorIO.swift */,
@@ -261,6 +264,7 @@
 		C5062DA61A68C2F200F65B86 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "bryn austin bellomy";
 				TargetAttributes = {
@@ -407,6 +411,7 @@
 			files = (
 				C5228D231A8B0EEF0054415D /* Functions.ErrorIO.swift in Sources */,
 				C51031471A8AD576006C0EBC /* Functions.Functional.swift in Sources */,
+				C57978CD1B1FD09B00B4534F /* Functions.Lazy.swift in Sources */,
 				C51031481A8AD576006C0EBC /* Functions.Math.swift in Sources */,
 				C5228D211A8B0D3F0054415D /* Operators.ErrorIO.swift in Sources */,
 				C56A05011AE8F05E00FA9FD8 /* Functions.Result.swift in Sources */,

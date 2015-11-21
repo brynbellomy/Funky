@@ -1,4 +1,6 @@
+///
 /// Result
+/// LlamaKit
 ///
 /// Container for a successful value (T) or a failure with an NSError
 ///

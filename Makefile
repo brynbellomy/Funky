@@ -4,7 +4,7 @@ XCTOOL=/usr/local/bin/xctool -scheme $(PRODUCT_NAME) -workspace $(PRODUCT_NAME).
 DOCS_OUTPUT_DIR=~/projects/_swift/_docs/$(PRODUCT_NAME)
 GITHUB_URL=https://github.com/brynbellomy/$(PRODUCT_NAME)
 PODSPEC_PATH=./$(PRODUCT_NAME).podspec
-SRC_ROOT=./src
+SRC_ROOT=.
 
 all: build
 

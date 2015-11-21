@@ -312,6 +312,9 @@ public func zip3 <T, U, V>  (one:T) (two:U) (three:V) -> (T, U, V) {
 }
 
 
+/**
+    Merges the provided sequences into a sequence of tuples containing their respective elements.
+ */
 public func zipseq
     <S: SequenceType, T: SequenceType>
     (one:S, two:T) -> SequenceOf<(S.Generator.Element, T.Generator.Element)>
@@ -322,7 +325,10 @@ public func zipseq
 
 
 /**
+    Eagerly creates a sequence out of a generator by calling the generator's `next()` method until
+    it returns `nil`.  Do not call this on an infinite sequence.
 
+    :returns: A sequence containing the elements returned by the generator.
  */
 public func unfoldGenerator <G: GeneratorType> (gen:G) -> SequenceOf<G.Element> {
     return gen |> unfold { (var generator) in both(generator.next(), generator) }
@@ -330,7 +336,9 @@ public func unfoldGenerator <G: GeneratorType> (gen:G) -> SequenceOf<G.Element> 
 
 
 /**
-    Creates a new sequence using an initial value and a generator closure.  The closure is called repeatedly to obtain the elements of the sequence.  The sequence is returned as soon as the closure returns `nil`.
+    Creates a new sequence using an initial value and a generator closure.  The closure is called
+    repeatedly to obtain the elements of the sequence.  The sequence is returned as soon as the
+    closure returns `nil`.
 
     :param: closure The closure takes as its only argument the `T` value it returned on its last iteration.  It should return either `nil` (if the unfolding should stop), or a 2-tuple `(U, T)` where the first element is a new element of the sequence, and the second element is thevalue to pass to `closure` on the next iteration.
     :param: initial The value to pass to `closure` the first time it's called.
@@ -349,6 +357,17 @@ public func unfold <T, U>
 }
 
 
+/**
+    Very abstractly represents an iterative process that builds up a sequence.
+
+    Calls `closure` on `initial` (and afterwards, always on the previous return value of `closure`) and
+    stops after `count` iterations.
+
+    The returned sequence is built up out of the left element of the tuple returned by `closure`.  The
+    right element of the tuple returned by `closure` is intended for passing state to the next iteration.
+
+    :returns: A sequence containing the left/first element of each tuple returned by `closure`.
+ */
 public func unfold <T, U>
     (count: Int, closure: T -> (U, T)?) (initial: T) -> SequenceOf<U>
 {
@@ -369,17 +388,10 @@ public func unfold <T, U>
 
 
 
-//
-//-- | The 'partition' function takes a predicate a list and returns
-//-- the pair of lists of elements which do and do not satisfy the
-//-- predicate, respectively; i.e.,
-//--
-//-- > partition p xs == (filter p xs, filter (not . p) xs)
-//
-//partition               :: (a -> Bool) -> [a] -> ([a],[a])
-//{-# INLINE partition #-}
-//partition p xs = foldr (select p) ([],[]) xs
-//
+/**
+    Takes a predicate and a sequence and returns the pair of arrays of elements which do and do not satisfy the
+    predicate, respectively; i.e.,
+ */
 
 public func partition
     <S: SequenceType, T where T == S.Generator.Element>
@@ -398,7 +410,7 @@ public func partition
 /**
     Returns `true` iff `range` contains only valid indices of `collection`.
  */
-public func contains
+public func containsIndices
     <I: Comparable, C: CollectionType where I == C.Index>
     (collection: C, range: Range<I>) -> Bool
 {
@@ -750,18 +762,6 @@ public func unique
 
 
 /**
-    Decomposes a `Dictionary` into a lazy sequence of key-value tuples.
- */
-public func pairs
-    <K: Hashable, V>
-    (dict:[K: V]) -> SequenceOf<(K, V)>
-{
-    var gen = lazy(dict).map(id).generate()
-    return SequenceOf(gen) //map(dict, id)
-}
-
-
-/**
     Curries a binary function.
  */
 public func curry <A, B, R>
@@ -917,14 +917,6 @@ public func zipMapLeft
 }
 
 
-public func selectWhere
-    <S: SequenceType>
-    (predicate:S.Generator.Element -> Bool) (seq: S) -> SequenceOf<S.Generator.Element>
-{
-    return SequenceOf(lazy(seq).filter(predicate))
-}
-
-
 /**
     A curried, argument-reversed version of `filter` for use in functional pipelines.  The return type
     must be explicitly specified, as this function is capable of returning any `ExtensibleCollectionType`.
@@ -963,6 +955,12 @@ public func selectArray <S: SequenceType>
 public func selectWhere <K, V> (predicate: (K, V) -> Bool) (dict: [K: V]) -> [K: V] {
     let arr: [(K, V)] = dict |> pairs |> selectWhere(predicate)
     return arr |> mapToDictionary(id)
+}
+
+public func countWhere <S: SequenceType>
+    (predicate: S.Generator.Element -> Bool) (_ seq: S) -> Int
+{
+    return (seq |> selectArray(predicate)).count
 }
 
 
@@ -1008,6 +1006,14 @@ public func mapTo
         mapped.append(transform(item))
     }
     return mapped
+}
+
+
+public func map
+    <S: SequenceType, T>
+    (transform: S.Generator.Element -> T) (source: LazySequence<S>) -> LazySequence<MapSequenceView<S, T>>
+{
+    return source.map(transform)
 }
 
 
