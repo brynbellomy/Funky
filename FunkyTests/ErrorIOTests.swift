@@ -11,6 +11,9 @@ import Quick
 import Nimble
 import Funky
 
+enum TestError : ErrorType {
+    case Error
+}
 
 class ErrorIOTests: QuickSpec
 {
@@ -21,13 +24,13 @@ class ErrorIOTests: QuickSpec
                 let err = ErrorIO()
 
                 it("should contain no child errors") {
-                    expect(equal(err.errors, [])).to(beTrue())
+                    expect(err.errors.count) == 0
                 }
             }
 
             
             describe("initialized with an array literal of NSErrors") {
-                let err: ErrorIO = [ NSError(), NSError() ]
+                let err: ErrorIO = [ TestError.Error, TestError.Error ]
 
                 it("should add the errors to errors") {
                     expect(err.errors.count) == 2
@@ -36,9 +39,9 @@ class ErrorIOTests: QuickSpec
 
 
             describe("when individual NSErrors are added to it with the <~ operator") {
-                var err = ErrorIO()
-                err <~ NSError()
-                err <~ NSError()
+                let err = ErrorIO()
+                err <~ NSError(domain: "", code: 0, userInfo: nil)
+                err <~ NSError(domain: "", code: 0, userInfo: nil)
 
                 it("should add them to errors") {
                     expect(err.errors.count) == 2
@@ -46,7 +49,7 @@ class ErrorIOTests: QuickSpec
             }
             
             describe("when individual Strings are added to it with the <~ operator") {
-                var err = ErrorIO()
+                let err = ErrorIO()
                 err <~ "some error"
                 err <~ "some other error"
 

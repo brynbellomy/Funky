@@ -34,10 +34,10 @@ class FunkyTests: XCTestCase
 
 
     func assertRGBA(rgba: (r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat), isEqualTo t:(CGFloat, CGFloat, CGFloat, CGFloat)) {
-        XCTAssertEqualWithAccuracy(rgba.r, CGFloat(t.0), 0.000001)
-        XCTAssertEqualWithAccuracy(rgba.g, CGFloat(t.1), 0.000001)
-        XCTAssertEqualWithAccuracy(rgba.b, CGFloat(t.2), 0.000001)
-        XCTAssertEqualWithAccuracy(rgba.a, CGFloat(t.3), 0.000001)
+        XCTAssertEqualWithAccuracy(rgba.r, CGFloat(t.0), accuracy: 0.000001)
+        XCTAssertEqualWithAccuracy(rgba.g, CGFloat(t.1), accuracy: 0.000001)
+        XCTAssertEqualWithAccuracy(rgba.b, CGFloat(t.2), accuracy: 0.000001)
+        XCTAssertEqualWithAccuracy(rgba.a, CGFloat(t.3), accuracy: 0.000001)
     }
 
     func test_rgbaFromHexCode() {

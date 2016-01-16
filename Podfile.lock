@@ -1,12 +1,12 @@
 PODS:
-  - Nimble (0.4.2)
-  - Quick (0.3.1)
-  - Regex (0.1.0)
+  - Nimble (3.0.0)
+  - Quick (0.8.0)
+  - Regex (0.2.1)
 
 DEPENDENCIES:
   - Nimble (from `https://github.com/Quick/Nimble.git`, branch `master`)
   - Quick (from `https://github.com/Quick/Quick.git`, branch `master`)
-  - Regex (~> 0.1.x)
+  - Regex (from `~/projects/_swift/Regex`)
 
 EXTERNAL SOURCES:
   Nimble:
@@ -15,18 +15,20 @@ EXTERNAL SOURCES:
   Quick:
     :branch: master
     :git: https://github.com/Quick/Quick.git
+  Regex:
+    :path: "~/projects/_swift/Regex"
 
 CHECKOUT OPTIONS:
   Nimble:
-    :commit: 34faf0425ce6acd7acaf77e8bd297e3054fdd821
+    :commit: 13d4a2bca41d41e53b1c9681bc2039e5f5bca5fe
     :git: https://github.com/Quick/Nimble.git
   Quick:
-    :commit: 9e1d2cecced0b9e9439c37226da11bad590ca9fd
+    :commit: a98f8e37867462c8f00fea1a7b255d12f5a4b611
     :git: https://github.com/Quick/Quick.git
 
 SPEC CHECKSUMS:
-  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  Regex: 7eb28abf34ed5718a34baa474892b0ddc4efb384
+  Nimble: 4c353d43735b38b545cbb4cb91504588eb5de926
+  Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
+  Regex: 14d9745c19442ccdf920234e50d463ba659f58c4
 
-COCOAPODS: 0.37.0.beta.1
+COCOAPODS: 0.39.0

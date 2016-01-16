@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9AC26533D240AC8F33B82143 /* Pods_FunkyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6FB219DDD31B4072EBD185 /* Pods_FunkyTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9AC26533D240AC8F33B82143 /* Pods_FunkyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA6FB219DDD31B4072EBD185 /* Pods_FunkyTests.framework */; };
 		C5062DB51A68C2F200F65B86 /* Funky.h in Headers */ = {isa = PBXBuildFile; fileRef = C5062DB41A68C2F200F65B86 /* Funky.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5062DBB1A68C2F200F65B86 /* Funky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5062DAF1A68C2F200F65B86 /* Funky.framework */; };
 		C5062DE11A68C3B600F65B86 /* Operators.apply.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5062DD21A68C3B600F65B86 /* Operators.apply.swift */; };
@@ -31,7 +31,7 @@
 		C56A05011AE8F05E00FA9FD8 /* Functions.Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56A05001AE8F05E00FA9FD8 /* Functions.Result.swift */; };
 		C56A05031AE8F65400FA9FD8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56A05021AE8F65400FA9FD8 /* Result.swift */; };
 		C57978CD1B1FD09B00B4534F /* Functions.Lazy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57978CC1B1FD09B00B4534F /* Functions.Lazy.swift */; };
-		E7099FC19FBFAA8FBFFC0959 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC47DD3DF9D85AFF3B99FE0A /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		E7099FC19FBFAA8FBFFC0959 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC47DD3DF9D85AFF3B99FE0A /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,7 +225,6 @@
 				C5062DAB1A68C2F200F65B86 /* Frameworks */,
 				C5062DAC1A68C2F200F65B86 /* Headers */,
 				C5062DAD1A68C2F200F65B86 /* Resources */,
-				F060F4790244E047458411C3 /* Embed Pods Frameworks */,
 				5DBA30B2DE18E17286E8A71F /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -264,8 +263,9 @@
 		C5062DA61A68C2F200F65B86 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "bryn austin bellomy";
 				TargetAttributes = {
 					C5062DAE1A68C2F200F65B86 = {
@@ -387,21 +387,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		F060F4790244E047458411C3 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -471,6 +456,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -545,6 +531,7 @@
 				INFOPLIST_FILE = Funky/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.illumntr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -563,6 +550,7 @@
 				INFOPLIST_FILE = Funky/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.illumntr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -583,6 +571,7 @@
 				);
 				INFOPLIST_FILE = FunkyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.illumntr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -598,6 +587,7 @@
 				);
 				INFOPLIST_FILE = FunkyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.illumntr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
